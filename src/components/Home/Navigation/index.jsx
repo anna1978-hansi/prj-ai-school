@@ -6,7 +6,7 @@ const Navigation = () => {
     const location = useLocation(); // ✅ 当前路径信息
 
     const handleNavigate = (path) => {
-        navigate(path);
+        navigate(`/home/${path}`);
     };
 
     // 导航项数组
@@ -15,6 +15,7 @@ const Navigation = () => {
         { id: 'repository', path: 'repository', label: '个人仓库' },
         { id: 'tools', path: 'aiDialog', label: 'AI 教学工具' },
         { id: 'community', path: 'resource', label: '资源社区' },
+        { id: 'message', path: 'message', label: '消息' },
     ];
 
     return (
@@ -23,22 +24,22 @@ const Navigation = () => {
                 <nav className="flex items-center justify-between">
                     <div className="flex items-center space-x-12">
                         {/* Logo */}
-                        <button onClick={() => handleNavigate('/')}>
+                        <button onClick={() => navigate('/')}>
                             <img src="../img/logo.png" width="150" alt="Logo" />
                         </button>
 
                         {/* ✅ 动态渲染导航按钮（已加当前路径判断） */}
                         <div className="flex space-x-8">
                             {navItems.map((item) => {
-                                const isActive = location.pathname.startsWith(`/${item.path}`)
+                                const isActive = location.pathname.startsWith(`/home/${item.path}`)
                                 return (
                                     <button
                                         key={item.id}
                                         onClick={() => handleNavigate(item.path)}
                                         className={`nav-item px-2 py-1 text-base transition-colors rounded 
                                             ${isActive
-                                            ? 'text-primary font-semibold border-b-2 border-primary'
-                                            : 'text-gray-300 hover:text-primary'}`}
+                                                ? 'text-primary font-semibold border-b-2 border-primary'
+                                                : 'text-gray-300 hover:text-primary'}`}
                                     >
                                         {item.label}
                                     </button>

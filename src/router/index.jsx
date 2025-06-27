@@ -8,6 +8,7 @@ import AiDialog from "@/pages/Home/AiDialog/index.jsx";
 import Resource from "@/pages/Home/Resource/index.jsx";
 import Repo from "@/pages/Home/Repo/index.jsx";
 import Course from "@/pages/Home/Course/index.jsx";
+import Message from "@/pages/Home/Message/index.jsx";
 import TeachingAssistant from "@/pages/Home/AiDialog/TeachingAssistant.jsx";
 import LearningAnalysis from "@/pages/Home/AiDialog/LearningAnalysis.jsx";
 import TeachingPlan from "@/pages/Home/AiDialog/TeachingPlan.jsx";
@@ -93,6 +94,10 @@ const router = createBrowserRouter([
         path: 'course',
         element: <Course />
       },
+      {
+        path: 'message', //home/message
+        element: <Message />
+      }
     ],
   },
   {
