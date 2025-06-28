@@ -1,112 +1,154 @@
 import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom'; // ✅ 引入 useLocation
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Navigation = () => {
     const navigate = useNavigate();
-    const location = useLocation(); // ✅ 当前路径信息
+    const location = useLocation();
 
     const handleNavigate = (path) => {
         navigate(`/home/${path}`);
     };
 
-    // 导航项数组
     const navItems = [
-        { id: 'courses', path: 'course', label: '课程' },
-        { id: 'repository', path: 'repository', label: '个人仓库' },
-        { id: 'tools', path: 'aiDialog', label: 'AI 教学工具' },
-        { id: 'community', path: 'resource', label: '资源社区' },
-        { id: 'message', path: 'message', label: '消息' },
+        { id: 'courses', path: 'course', label: '课程', icon: 'fas fa-book' },
+        { id: 'repository', path: 'repository', label: '个人仓库', icon: 'fas fa-folder' },
+        { id: 'tools', path: 'aiDialog', label: 'AI 教学工具', icon: 'fas fa-robot' },
+        { id: 'community', path: 'resource', label: '资源社区', icon: 'fas fa-users' },
+        { id: 'message', path: 'message', label: '消息', icon: 'fas fa-comments' },
     ];
 
     return (
-        <header className="bg-white shadow-sm">
-            <div className="container mx-auto px-6 py-4">
+        <header className="bg-white border-b border-gray-200/50 backdrop-blur-sm sticky top-0 z-50">
+            <div className="container mx-auto px-8 py-5">
                 <nav className="flex items-center justify-between">
+                    {/* 左侧Logo和导航 */}
                     <div className="flex items-center space-x-12">
                         {/* Logo */}
-                        <button onClick={() => navigate('/')}>
-                            <img src="../img/logo.png" width="150" alt="Logo" />
+                        <button
+                            onClick={() => navigate('/')}
+                            className="group transition-all duration-300 hover:scale-105"
+                        >
+                            <img
+                                src="../img/logo.png"
+                                width="160"
+                                alt="Logo"
+                                className="drop-shadow-sm"
+                            />
                         </button>
 
-                        {/* ✅ 动态渲染导航按钮（已加当前路径判断） */}
-                        <div className="flex space-x-8">
+                        {/* 导航菜单 */}
+                        <div className="flex space-x-2">
                             {navItems.map((item) => {
-                                const isActive = location.pathname.startsWith(`/home/${item.path}`)
+                                const isActive = location.pathname.startsWith(`/home/${item.path}`);
                                 return (
                                     <button
                                         key={item.id}
                                         onClick={() => handleNavigate(item.path)}
-                                        className={`nav-item px-2 py-1 text-base transition-colors rounded 
+                                        className={`relative px-6 py-3 rounded-xl text-base font-medium transition-all duration-300 ease-in-out group text-center
                                             ${isActive
-                                                ? 'text-primary font-semibold border-b-2 border-primary'
-                                                : 'text-gray-300 hover:text-primary'}`}
+                                                ? 'bg-white text-blue-600 shadow-lg shadow-blue-100/50 border border-blue-200/50'
+                                                : 'text-gray-600 hover:text-blue-600 hover:bg-white/70 hover:shadow-md'}`}
                                     >
-                                        {item.label}
+                                        <div className="flex items-center ">
+                                            <i className={`${item.icon} text-lg ${isActive ? 'text-blue-500' : 'text-gray-400 group-hover:text-blue-500'}`}></i>
+                                            <span>{item.label}</span>
+                                        </div>
+                                        {isActive && (
+                                            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-blue-500 rounded-full"></div>
+                                        )}
                                     </button>
                                 );
                             })}
                         </div>
                     </div>
 
-                    {/* 右侧通知铃铛 */}
-                    <div className="relative group">
-                        <button
-                            id="messageAlert"
-                            className="!rounded-button relative p-3 hover:bg-gray-100 focus:outline-none transition duration-300 ease-in-out transform hover:scale-110"
-                        >
-                            <i className="fas fa-bell text-gray-600 text-lg" />
-                            <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
-                                3
-                            </span>
+                    {/* 右侧功能区 */}
+                    <div className="flex items-center space-x-6">
+                        {/* 通知铃铛 */}
+                        <div className="relative group">
+                            <button className="relative p-4 rounded-full bg-white/80 hover:bg-white shadow-sm hover:shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 border border-gray-200/50">
+                                <i className="fas fa-bell text-gray-600 text-xl" />
+                                <span className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-red-400 to-red-500 text-white text-sm rounded-full flex items-center justify-center font-medium shadow-sm">
+                                    3
+                                </span>
+                            </button>
+
+                            {/* 通知下拉 */}
+                            <div className="absolute right-0 top-full mt-3 w-72 bg-white rounded-xl shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-in-out transform scale-95 group-hover:scale-100">
+                                <div className="p-5 border-b border-gray-100">
+                                    <h3 className="font-semibold text-gray-900 text-lg">通知中心</h3>
+                                    <p className="text-base text-gray-500 mt-2">您有 3 条未读消息</p>
+                                </div>
+                                <div className="p-3">
+                                    <div className="p-4 hover:bg-gray-50 rounded-lg transition-colors">
+                                        <div className="flex items-start space-x-4">
+                                            <div className="w-3 h-3 bg-blue-500 rounded-full mt-2"></div>
+                                            <div className="flex-1">
+                                                <p className="text-base font-medium text-gray-900">新课程发布</p>
+                                                <p className="text-sm text-gray-500 mt-1">《人工智能导论》课程已上线</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* 个人中心按钮 */}
+                        <button className="hidden md:flex items-center space-x-3 px-6 py-3 rounded-full bg-white/80 hover:bg-white text-gray-700 hover:text-gray-900 shadow-sm hover:shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 border border-gray-200/50">
+                            <i className="fas fa-user-circle text-xl text-gray-600"></i>
+                            <span className="font-medium text-base">个人中心</span>
                         </button>
 
-                        <div className="hidden group-hover:block absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg p-3 z-20 opacity-0 transform scale-95 transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:scale-100">
-                            <p className="text-sm text-gray-600">您有 3 条未读取通知</p>
-                        </div>
-                    </div>
-
-                    {/* 个人中心 */}
-                    <button className="rounded-full px-5 py-3 text-base text-gray-600 bg-white hover:bg-gray-100 focus:outline-none transition duration-300 ease-in-out transform hover:scale-105 shadow-sm hover:shadow-md flex items-center space-x-2">
-                        <a id="jumpPersonalCenter" className="flex items-center space-x-2">
-                            <i className="fas fa-user text-xl text-gray-600 hover:text-gray-800"></i>
-                            <span>个人中心</span>
-                        </a>
-                    </button>
-
-                    {/* 头像下拉 */}
-                    <div className="relative group">
-                        <button>
-                            <a id="jumpPersonalCenter">
+                        {/* 头像下拉 */}
+                        <div className="relative group">
+                            <button className="relative">
                                 <img
                                     src="https://ai-public.mastergo.com/ai/img_res/350557424808b797c2bfbc14cc0a722c.jpg"
-                                    className="w-10 h-10 rounded-full cursor-pointer"
+                                    className="w-12 h-12 rounded-full cursor-pointer ring-2 ring-white shadow-md hover:ring-blue-200 transition-all duration-300 ease-in-out transform hover:scale-105"
                                     alt="用户头像"
                                 />
-                            </a>
-                        </button>
+                                <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 border-2 border-white rounded-full"></div>
+                            </button>
 
-                        <div
-                            id="dropdown-menu"
-                            className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg p-2 z-20 opacity-0 transform scale-95 transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:scale-100"
-                        >
-                            <div className="p-3 border-b border-gray-100">
-                                <div className="font-medium text-gray-900">张丽华</div>
-                                <div className="text-xs text-gray-500">副教授</div>
+                            {/* 用户下拉菜单 */}
+                            <div className="absolute right-0 top-full mt-3 w-64 bg-white rounded-xl shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-in-out transform scale-95 group-hover:scale-100">
+                                {/* 用户信息 */}
+                                <div className="p-5 border-b border-gray-100">
+                                    <div className="flex items-center space-x-4">
+                                        <img
+                                            src="https://ai-public.mastergo.com/ai/img_res/350557424808b797c2bfbc14cc0a722c.jpg"
+                                            className="w-14 h-14 rounded-full"
+                                            alt="用户头像"
+                                        />
+                                        <div>
+                                            <div className="font-semibold text-gray-900 text-lg">张丽华</div>
+                                            <div className="text-base text-gray-500">副教授</div>
+                                            <div className="text-sm text-blue-600 mt-1">在线</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* 菜单项 */}
+                                <div className="p-3">
+                                    <button className="w-full flex items-center space-x-4 px-4 py-3 text-base text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors duration-200">
+                                        <i className="fas fa-user-cog text-gray-400 text-lg"></i>
+                                        <span>账号设置</span>
+                                    </button>
+                                    <button className="w-full flex items-center space-x-4 px-4 py-3 text-base text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors duration-200">
+                                        <i className="fas fa-cog text-gray-400 text-lg"></i>
+                                        <span>偏好设置</span>
+                                    </button>
+                                    <button className="w-full flex items-center space-x-4 px-4 py-3 text-base text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors duration-200">
+                                        <i className="fas fa-question-circle text-gray-400 text-lg"></i>
+                                        <span>帮助中心</span>
+                                    </button>
+                                    <div className="border-t border-gray-100 my-3"></div>
+                                    <button className="w-full flex items-center space-x-4 px-4 py-3 text-base text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200">
+                                        <i className="fas fa-sign-out-alt text-lg"></i>
+                                        <span>退出登录</span>
+                                    </button>
+                                </div>
                             </div>
-
-                            <button
-                                id="jumpAccountManagement"
-                                className="block px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded transition duration-200 ease-in-out"
-                            >
-                                账号设置
-                            </button>
-
-                            <button
-                                id="logoutLink"
-                                className="block px-3 py-2 text-sm text-red-600 hover:bg-gray-50 rounded transition duration-200 ease-in-out"
-                            >
-                                退出登录
-                            </button>
                         </div>
                     </div>
                 </nav>

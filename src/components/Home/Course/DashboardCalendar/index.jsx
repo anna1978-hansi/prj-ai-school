@@ -1,7 +1,7 @@
 // src/components/DashboardCalendar.js
 
 import React from 'react';
-import Calendar from 'react-calendar';
+
 // 引入 react-calendar 的默认样式，你也可以自定义
 import 'react-calendar/dist/Calendar.css';
 import BasicDateCalendar from "@/components/Calendar/calendar.jsx";
@@ -29,7 +29,7 @@ const DashboardCalendar = () => {
         // 使用 Flexbox 创建整体布局
         <div className="flex  p-4 md:p-8 space-x-8 rounded-lg">
 
-            <BasicDateCalendar/>
+            <BasicDateCalendar />
 
             {/* ----------- 右侧信息栏 ----------- */}
             <div className="w-full md:w-1/3 space-y-6">
