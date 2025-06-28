@@ -3,7 +3,7 @@ import React from 'react';
 const Register = () => {
     return (
         <div className="min-h-screen flex items-center justify-center bg-[url('/img/login.jpg')] bg-cover bg-center">
-            <div className="bg-white bg-opacity-95 p-8 sm:p-10 rounded-2xl shadow-2xl w-full max-w-md">
+            <div className="bg-white bg-opacity-95 p-8 sm:p-10 rounded-2xl shadow-2xl w-full max-w-xl">
                 {/* 顶部icon和标题 */}
                 <div className="flex flex-col items-center mb-6">
                     <div className="bg-blue-100 rounded-full p-3 mb-2">
