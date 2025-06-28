@@ -1,16 +1,16 @@
 // src/components/DashboardCalendar.js
 
-import React, { useState } from 'react';
+import React from 'react';
 import Calendar from 'react-calendar';
 // 引入 react-calendar 的默认样式，你也可以自定义
 import 'react-calendar/dist/Calendar.css';
+import BasicDateCalendar from "@/components/Calendar/calendar.jsx";
 
 // 为了让默认样式更好看，我们可以创建一些自定义 CSS 来覆盖它
 // 例如，在你的主 CSS 文件 (如 index.css) 中添加下面 "步骤 3" 的样式
 
 const DashboardCalendar = () => {
-    // 1. 用 state 来保存当前选中的日期
-    const [date, setDate] = useState(new Date());
+
 
     // 模拟的近期任务数据
     const recentTasks = [
@@ -27,21 +27,9 @@ const DashboardCalendar = () => {
 
     return (
         // 使用 Flexbox 创建整体布局
-        <div className="flex bg-gray-50 p-4 md:p-8 space-x-8 rounded-lg">
+        <div className="flex  p-4 md:p-8 space-x-8 rounded-lg">
 
-            {/* ----------- 左侧日历栏 ----------- */}
-            <div className="w-full md:w-2/3 bg-white p-6 rounded-lg shadow-md">
-                {/* value: 控制日历当前选中的日期
-                  onChange: 当用户点击新日期时触发的函数
-                  locale: 设置为中文
-                */}
-                <Calendar
-                    onChange={setDate}
-                    value={date}
-                    locale="zh-CN"
-                    className="w-full border-none"
-                />
-            </div>
+            <BasicDateCalendar/>
 
             {/* ----------- 右侧信息栏 ----------- */}
             <div className="w-full md:w-1/3 space-y-6">
