@@ -8,3 +8,13 @@ export function sendVerificationCode(email) {
 export function registerTeacher(data) {
   return request.post('/teachers/register', data);
 }
+
+// 获取图形验证码
+export function getCaptcha() {
+  return request.get('/teachers/code');
+}
+
+// 教师登录
+export function loginTeacher(data) {
+  return request.post('/teachers/login', data);
+}

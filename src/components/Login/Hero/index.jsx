@@ -1,13 +1,58 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { getCaptcha, loginTeacher } from '../../../api/teachers';
 
 const Hero = () => {
   const navigate = useNavigate();
+  const [captchaImg, setCaptchaImg] = useState('');
+  const [captchaKey, setCaptchaKey] = useState('');
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [captchaValue, setCaptchaValue] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    navigate('/home');
+    try {
+      const res = await loginTeacher({
+        email,
+        password,
+        captcha: captchaValue,
+        key: captchaKey,
+      });
+      if (res.code === 200) {
+        alert('登录成功');
+        navigate('/home');
+        // 这里可以处理res.data，比如保存token、跳转等
+      } else {
+        alert(res.msg || '登录失败');
+        fetchCaptcha(); // 登录失败刷新验证码
+      }
+    } catch (err) {
+      alert('登录失败');
+      fetchCaptcha();
+    }
   };
+
+  // 获取验证码
+  const fetchCaptcha = async () => {
+    try {
+      const res = await getCaptcha();
+      setCaptchaImg(res.data.img);
+      setCaptchaKey(res.data.key);
+    } catch (err) {
+      setCaptchaImg('');
+      setCaptchaKey('');
+    }
+  };
+
+  const handleCaptchaChange = (e) => {
+    setCaptchaValue(e.target.value);
+  };
+
+  useEffect(() => {
+    fetchCaptcha();
+  }, []);
 
   return (
     <form className="space-y-6" onSubmit={handleLogin}>
@@ -15,9 +60,10 @@ const Hero = () => {
         <div className="relative">
           <i className="fas fa-user absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
           <input
-            type="text"
+            type="email"
             placeholder="邮箱"
-            id="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
             className="required w-full pl-12 pr-4 py-3 border border-gray-200 rounded-button focus:outline-none focus:border-blue-500 text-sm"
           />
         </div>
@@ -30,7 +76,8 @@ const Hero = () => {
           <input
             type="password"
             placeholder="密码"
-            id="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
             className="required w-full pl-12 pr-4 py-3 border border-gray-200 rounded-button focus:outline-none focus:border-blue-500 text-sm"
           />
         </div>
@@ -46,22 +93,41 @@ const Hero = () => {
               placeholder="图形验证码"
               id="captcha"
               className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-button focus:outline-none focus:border-blue-500 text-sm"
+              value={captchaValue}
+              onChange={handleCaptchaChange}
             />
           </div>
-          <div className="captcha-container h-[46px] w-[140px] bg-gray-100 rounded-button overflow-hidden flex flex-col items-center justify-center relative cursor-pointer" id="captcha-container">
+          <div
+            className="captcha-container h-[46px] w-[140px] bg-gray-100 rounded-button overflow-hidden flex flex-col items-center justify-center relative cursor-pointer"
+            id="captcha-container"
+            onClick={fetchCaptcha}
+            onMouseEnter={() => setShowTooltip(true)}
+            onMouseLeave={() => setShowTooltip(false)}
+          >
             {/* Backend generated captcha image */}
-            <img id="captcha-image" src="#" alt="验证码" className="w-full h-full object-cover captcha-image" />
+            {captchaImg ? (
+              <img
+                id="captcha-image"
+                src={captchaImg}
+                alt="验证码"
+                className="w-full h-full object-cover captcha-image"
+              />
+            ) : (
+              <span>加载中...</span>
+            )}
             {/* Tooltip */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-[120px] h-[38px] bg-gradient-to-c from-black via-transparent to-transparent bg-opacity-50 rounded-lg flex items-center justify-center text-white font-medium" id="captcha-tooltip">
-                看不清？换一张
+            {showTooltip && (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-500 bg-opacity-30 rounded-lg transition duration-200">
+                <div className="w-[120px] h-[38px] flex items-center justify-center font-medium text-blue-500 text-base" id="captcha-tooltip">
+                  看不清？换一张
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
         <p id="captcha-validation" className="mt-1 text-xs text-red-500 hidden">请输入验证码</p>
         {/* Hidden input for captcha key */}
-        <input type="hidden" id="captcha-key" name="captcha-key" />
+        <input type="hidden" id="captcha-key" name="captcha-key" value={captchaKey} />
       </div>
 
 
