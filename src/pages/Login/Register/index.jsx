@@ -164,7 +164,7 @@ const Register = () => {
                                     className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-base bg-white" required
                                     value={form.code} onChange={handleChange} />
                             </div>
-                            <button type="button" className="px-3 sm:px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm whitespace-nowrap" onClick={handleSendCode}>验证码</button>
+                            <button type="button" className="px-3 sm:px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm whitespace-nowrap" onClick={handleSendCode}>邮箱验证码</button>
                         </div>
                     </div>
                     {/* 密码 */}

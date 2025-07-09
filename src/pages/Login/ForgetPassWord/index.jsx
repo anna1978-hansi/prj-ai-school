@@ -1,6 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { sendVerificationCode, forgetPasswordUpdate } from '../../../api/teachers';
 
 const ForgetPassWord = () => {
+    const [email, setEmail] = useState('');
+    const [captcha, setCaptcha] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+
+    const handleGetCaptcha = async () => {
+        const emailTrimmed = email.trim();
+        if (!emailTrimmed) {
+            alert('请先输入邮箱地址');
+            return;
+        }
+        if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(emailTrimmed)) {
+            alert('请输入正确的邮箱格式');
+            return;
+        }
+        try {
+            await sendVerificationCode(emailTrimmed);
+            alert('验证码已发送，请查收邮箱！');
+        } catch (error) {
+            alert('获取验证码失败，请重试');
+        }
+    };
+
+    // 校验密码规则
+    const validatePassword = (pwd) => {
+        return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/.test(pwd);
+    };
+
+    // 重置密码按钮点击
+    const handleResetPassword = async () => {
+        if (!email.trim()) {
+            alert('请先输入邮箱地址');
+            return;
+        }
+        if (!captcha.trim()) {
+            alert('请先输入验证码');
+            return;
+        }
+        if (!password.trim()) {
+            alert('请先输入新密码');
+            return;
+        }
+        if (!validatePassword(password)) {
+            alert('密码需包含字母和数字，长度8-20位');
+            return;
+        }
+        if (password !== confirmPassword) {
+            alert('两次输入的新密码不一致');
+            return;
+        }
+        try {
+            await forgetPasswordUpdate({ email: email.trim(), captcha: captcha.trim(), password: password.trim() });
+            alert('密码重置成功，请返回登录！');
+            // 可选：跳转到登录页
+        } catch (error) {
+            alert('重置密码失败，请检查信息后重试');
+        }
+    };
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-[url('/img/login.jpg')] bg-cover bg-center">
             <div className="bg-white bg-opacity-95 p-16 rounded-2xl shadow-2xl w-full max-w-xl mx-4 relative min-h-[700px]">
@@ -22,7 +82,8 @@ const ForgetPassWord = () => {
                                 <i className="fas fa-envelope"></i>
                             </span>
                             <input type="email" id="email" name="email" placeholder="请输入邮箱地址"
-                                className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-base bg-white" required />
+                                className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-base bg-white" required
+                                value={email} onChange={e => setEmail(e.target.value)} />
                         </div>
                     </div>
                     {/* 验证码 */}
@@ -34,9 +95,10 @@ const ForgetPassWord = () => {
                                     <i className="fas fa-shield-alt"></i>
                                 </span>
                                 <input type="text" id="code" name="code" placeholder="请输入验证码"
-                                    className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-base bg-white" required />
+                                    className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-base bg-white" required
+                                    value={captcha} onChange={e => setCaptcha(e.target.value)} />
                             </div>
-                            <button type="button" className="px-4 sm:px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-base whitespace-nowrap">获取邮箱验证码</button>
+                            <button type="button" onClick={handleGetCaptcha} className="px-4 sm:px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-base whitespace-nowrap">获取邮箱验证码</button>
                         </div>
                     </div>
                     {/* 新密码 */}
@@ -47,7 +109,8 @@ const ForgetPassWord = () => {
                                 <i className="fas fa-lock"></i>
                             </span>
                             <input type="password" id="password" name="password" placeholder="请设置新密码"
-                                className="w-full pl-12 pr-12 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-base bg-white" required />
+                                className="w-full pl-12 pr-12 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-base bg-white" required
+                                value={password} onChange={e => setPassword(e.target.value)} />
                             <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer">
                                 <i className="fas fa-eye"></i>
                             </span>
@@ -62,14 +125,15 @@ const ForgetPassWord = () => {
                                 <i className="fas fa-lock"></i>
                             </span>
                             <input type="password" id="confirmPassword" name="confirmPassword" placeholder="请再次输入新密码"
-                                className="w-full pl-12 pr-12 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-base bg-white" required />
+                                className="w-full pl-12 pr-12 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-base bg-white" required
+                                value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
                             <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer">
                                 <i className="fas fa-eye"></i>
                             </span>
                         </div>
                     </div>
                     {/* 重置密码按钮 */}
-                    <button type="button" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg text-lg transition mt-8">重置密码</button>
+                    <button type="button" onClick={handleResetPassword} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg text-lg transition mt-8">重置密码</button>
                 </form>
                 {/* 返回登录 */}
                 <div className="text-center mt-8">

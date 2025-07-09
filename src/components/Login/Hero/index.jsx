@@ -22,6 +22,7 @@ const Hero = () => {
       });
       if (res.code === 200) {
         alert('登录成功');
+        console.log(res.data);
         navigate('/home');
         // 这里可以处理res.data，比如保存token、跳转等
       } else {
@@ -145,7 +146,7 @@ const Hero = () => {
       <button
         type="submit"
         id="loginButton"
-        className="w-full bg-blue-500 rounded-md hover:bg-secondary text-white py-3 rounded-button transition duration-300 whitespace-nowrap"
+        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg text-lg transition "
       >
         登 录
       </button>

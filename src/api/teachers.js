@@ -18,3 +18,8 @@ export function getCaptcha() {
 export function loginTeacher(data) {
   return request.post('/teachers/login', data);
 }
+
+// 忘记密码-重置密码
+export function forgetPasswordUpdate(data) {
+  return request.post('/teachers/forgetPassword', data);
+}
