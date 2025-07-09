@@ -11,7 +11,7 @@ const Navigation = () => {
 
     const navItems = [
         { id: 'courses', path: 'course', label: '课程', icon: 'fas fa-book' },
-        { id: 'repository', path: 'repository', label: '个人仓库', icon: 'fas fa-folder' },
+        // { id: 'repository', path: 'repository', label: '个人仓库', icon: 'fas fa-folder' },
         { id: 'tools', path: 'aiDialog', label: 'AI 教学工具', icon: 'fas fa-robot' },
         { id: 'community', path: 'resource', label: '资源社区', icon: 'fas fa-users' },
         { id: 'message', path: 'message', label: '消息', icon: 'fas fa-comments' },
