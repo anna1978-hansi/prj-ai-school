@@ -5,10 +5,12 @@ import CourseDashboard from "@/components/Home/Course/CourseDashboard/index.jsx"
 
 const Couse = () => {
   return (
-    <div className='bg-sky-50 h-screen'>
+    <div className='bg-sky-50 h-full'>
       <div className="w-[60vw] mx-auto flex flex-col gap-5 justify-center ">
         <DashboardCalendar />
-        <CourseDashboard />
+        <div className='ml-15'>
+          <CourseDashboard />
+        </div>
       </div>
     </div>
   );
