@@ -30,11 +30,16 @@ const courses = [
     }
 ];
 
-const CourseList = () => {
+const CourseList = ({ page = 1, pageSize = 3 }) => {
+    // 计算当前页要显示的课程
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize;
+    const pagedCourses = courses.slice(start, end);
+
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
-            {courses.map((course, index) => (
-                <CourseCard key={index} {...course} />
+            {pagedCourses.map((course, index) => (
+                <CourseCard key={index + start} {...course} />
             ))}
         </div>
     );

@@ -52,9 +52,9 @@ const generateMockData = (prefix, count) =>
         likes: Math.floor(Math.random() * 1000) + 50,
     }));
 
-export const coursesData = generateMockData('精品课程', 6);
-export const designsData = generateMockData('教学设计', 6);
-export const resourcesData = generateMockData('海量资源', 6);
+export const coursesData = generateMockData('精品课程', 9);
+export const designsData = generateMockData('教学设计', 9);
+export const resourcesData = generateMockData('海量资源', 9);
 
 
 // 收藏夹数据
