@@ -48,7 +48,7 @@ const TeachingAssistant = () => {
         scrollToBottom();
     }, [messages]);
 
-    // 发送消息
+    // 发送消息到通义千问API
     const handleSendMessage = async (message) => {
         if (!message.trim()) return;
 
@@ -64,19 +64,96 @@ const TeachingAssistant = () => {
         setInputValue('');
         setIsTyping(true);
 
-        // 模拟AI回复
-        setTimeout(() => {
-            const aiResponse = {
-                id: Date.now() + 1,
-                isAI: true,
-                avatarIcon: "fa-robot",
-                content: "我收到了您的消息",
-                details: "正在为您分析并提供建议...",
-                timestamp: new Date()
-            };
-            setMessages(prev => [...prev, aiResponse]);
+        // 创建AI回复消息
+        const aiMessageId = Date.now() + 1;
+        const aiMessage = {
+            id: aiMessageId,
+            isAI: true,
+            avatarIcon: "fa-robot",
+            content: "",
+            details: "",
+            timestamp: new Date()
+        };
+
+        setMessages(prev => [...prev, aiMessage]);
+
+        try {
+            // 调用通义千问API
+            const response = await fetch("https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer sk-26017e0b3b2a444e951243e4f9d6ea6e"
+                },
+                body: JSON.stringify({
+                    model: "qwen-plus",
+                    stream: true,
+                    messages: [
+                        {
+                            role: "system",
+                            content: "你是一个专业的教学助手，可以为教师提供教学建议、课程设计、教学方法等方面的帮助。请用中文回答，回答要专业、实用、有条理。"
+                        },
+                        { role: "user", content: message }
+                    ]
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`API请求失败: ${response.status}`);
+            }
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder("utf-8");
+            let fullContent = "";
+            let fullDetails = "";
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                const chunk = decoder.decode(value, { stream: true });
+                const lines = chunk
+                    .split("\n")
+                    .filter(line => line.trim().startsWith("data: "))
+                    .map(line => line.replace("data: ", "").trim());
+
+                for (const line of lines) {
+                    if (line === "[DONE]") break;
+
+                    try {
+                        const json = JSON.parse(line);
+                        const delta = json.choices?.[0]?.delta?.content;
+                        if (delta) {
+                            fullContent += delta;
+                            fullDetails += delta;
+
+                            // 更新消息内容
+                            setMessages(prev => prev.map(msg =>
+                                msg.id === aiMessageId
+                                    ? { ...msg, content: fullContent, details: fullDetails }
+                                    : msg
+                            ));
+                        }
+                    } catch (e) {
+                        console.error("解析API响应出错：", line, e);
+                    }
+                }
+            }
+        } catch (error) {
+            console.error("API调用失败:", error);
+            // 如果API调用失败，显示错误消息
+            setMessages(prev => prev.map(msg =>
+                msg.id === aiMessageId
+                    ? {
+                        ...msg,
+                        content: "抱歉，服务暂时不可用",
+                        details: "请稍后再试或检查网络连接"
+                    }
+                    : msg
+            ));
+        } finally {
             setIsTyping(false);
-        }, 1000);
+        }
     };
 
     // 新建对话
