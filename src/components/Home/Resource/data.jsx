@@ -41,14 +41,13 @@ export const bannerSlides = [
 ];
 
 
-// 内容卡片数据 (为简化，所有区域使用相同结构)
 const generateMockData = (prefix, count) =>
     Array.from({ length: count }, (_, i) => ({
         id: `${prefix}-${i + 1}`,
-        imageUrl: `https://plus.unsplash.com/premium_photo-1663089685129-de2f6c0a0c64?q=80&w=2940&auto=format&fit=crop`,
+        imageUrl: `https://picsum.photos/seed/${prefix}-${i + 1}/600/400`, // 可访问的课程图
         title: `${prefix} Title ${i + 1}`,
         author: `Author ${i + 1}`,
-        avatarUrl: `https://i.pravatar.cc/40?u=author${i+1}`,
+        avatarUrl: `https://i.pravatar.cc/150?img=${(i % 70) + 1}`, // 可访问的头像图
         views: Math.floor(Math.random() * 5000) + 100,
         likes: Math.floor(Math.random() * 1000) + 50,
     }));
