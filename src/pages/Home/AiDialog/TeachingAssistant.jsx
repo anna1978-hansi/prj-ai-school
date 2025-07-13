@@ -52,9 +52,12 @@ const TeachingAssistant = () => {
     const handleSendMessage = async (message) => {
         if (!message.trim()) return;
 
+        // 用同一个时间戳生成id，确保唯一且配对
+        const baseId = Date.now();
+
         // 添加用户消息
         const userMessage = {
-            id: Date.now(),
+            id: baseId,
             isAI: false,
             content: message,
             timestamp: new Date()
@@ -64,8 +67,8 @@ const TeachingAssistant = () => {
         setInputValue('');
         setIsTyping(true);
 
-        // 创建AI回复消息
-        const aiMessageId = Date.now() + 1;
+        // 只插入一条空内容AI消息用于流式填充
+        const aiMessageId = baseId + 1;
         const aiMessage = {
             id: aiMessageId,
             isAI: true,
@@ -74,7 +77,6 @@ const TeachingAssistant = () => {
             details: "",
             timestamp: new Date()
         };
-
         setMessages(prev => [...prev, aiMessage]);
 
         try {
@@ -126,8 +128,7 @@ const TeachingAssistant = () => {
                         if (delta) {
                             fullContent += delta;
                             fullDetails += delta;
-
-                            // 更新消息内容
+                            // 只更新同一条AI消息内容，不追加新消息
                             setMessages(prev => prev.map(msg =>
                                 msg.id === aiMessageId
                                     ? { ...msg, content: fullContent, details: fullDetails }
@@ -165,6 +166,7 @@ const TeachingAssistant = () => {
 
         setChatHistoryList(prev => [newChat, ...prev]);
         setSelectedChat(newChat.id);
+        // 只插入欢迎语
         setMessages([
             {
                 id: Date.now(),
@@ -207,9 +209,9 @@ const TeachingAssistant = () => {
     };
 
     return (
-        <div className="bg-gray-50">
+        <div className="bg-gray-50 w-full">
             {/*<Header />*/}
-            <main className="mx-auto max-w-screen-xl">
+            <main className="mx-auto ">
                 <div className="flex h-[calc(100vh-6rem)] gap-4 py-4">
                     <ChatHistorySidebar
                         expanded={sidebarExpanded}

@@ -13,7 +13,7 @@ import TeachingAssistant from "@/pages/Home/AiDialog/TeachingAssistant.jsx";
 import LearningAnalysis from "@/pages/Home/AiDialog/LearningAnalysis.jsx";
 import TeachingPlan from "@/pages/Home/AiDialog/TeachingPlan.jsx";
 import UserManagement from "@/pages/UserManagement/index.jsx";
-
+import ChatPage from "@/pages/Home/ChatRoom/ChatPage.jsx";
 // 简单的身份验证检查，实际项目中应该使用更复杂的身份验证逻辑
 const isAuthenticated = () => {
   // 这里可以检查localStorage或其他存储中的token
@@ -97,6 +97,10 @@ const router = createBrowserRouter([
       {
         path: 'message', //home/message
         element: <Message />
+      },
+      {
+        path: 'chat',
+        element: <ChatPage />
       }
     ],
   },

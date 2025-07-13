@@ -14,7 +14,8 @@ const Navigation = () => {
         // { id: 'repository', path: 'repository', label: '个人仓库', icon: 'fas fa-folder' },
         { id: 'tools', path: 'aiDialog', label: 'AI 教学工具', icon: 'fas fa-robot' },
         { id: 'community', path: 'resource', label: '资源社区', icon: 'fas fa-users' },
-        { id: 'message', path: 'message', label: '消息', icon: 'fas fa-comments' },
+        // { id: 'message', path: 'message', label: '消息', icon: 'fas fa-comments' },
+        // { id: 'chat', path: 'chat', label: '聊天', icon: 'fas fa-comments' },
     ];
 
     return (
