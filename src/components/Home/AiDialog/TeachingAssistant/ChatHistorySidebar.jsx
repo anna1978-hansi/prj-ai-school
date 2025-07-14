@@ -74,7 +74,7 @@ const ChatHistorySidebar = ({
                         <div key={chat.id} className="relative group flex items-center">
                             {editingId === chat.id ? (
                                 <input
-                                    className="block w-full text-left p-3 rounded-lg text-sm border border-primary focus:ring-primary focus:border-primary outline-none"
+                                    className="block w-full text-left p-3 pr-16 rounded-lg text-sm border border-primary focus:ring-primary focus:border-primary outline-none truncate"
                                     value={editValue}
                                     autoFocus
                                     onChange={handleEditChange}
@@ -84,7 +84,7 @@ const ChatHistorySidebar = ({
                             ) : (
                                 <button
                                     onClick={() => onSelectChat(chat.id)}
-                                    className={`block w-full text-left p-3 rounded-lg text-sm text-gray-700 hover:bg-gray-100 truncate transition-colors ${selectedChat === chat.id ? 'bg-primary/10 text-primary border border-primary/20' : ''}`}
+                                    className={`block w-full text-left p-3 pr-16 rounded-lg text-sm text-gray-700 hover:bg-gray-100 truncate transition-colors ${selectedChat === chat.id ? 'bg-primary/10 text-primary border border-primary/20' : ''}`}
                                 >
                                     {chat.title}
                                 </button>
