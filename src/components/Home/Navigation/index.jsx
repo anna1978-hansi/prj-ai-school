@@ -9,6 +9,14 @@ const Navigation = () => {
         navigate(`/home/${path}`);
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        // 如果有用sessionStorage也可以加上
+        // sessionStorage.clear();
+        navigate('/');
+    };
+
     const navItems = [
         { id: 'courses', path: 'course', label: '课程', icon: 'fas fa-book' },
         // { id: 'repository', path: 'repository', label: '个人仓库', icon: 'fas fa-folder' },
@@ -95,7 +103,7 @@ const Navigation = () => {
                         </div>
 
                         {/* 个人中心按钮 */}
-                        <button className="hidden md:flex items-center space-x-3 px-6 py-3 rounded-full bg-white/80 hover:bg-white text-gray-700 hover:text-gray-900 shadow-sm hover:shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 border border-gray-200/50">
+                        <button className="hidden md:flex items-center space-x-3 px-6 py-3 rounded-full bg-white/80 hover:bg-white text-gray-700 hover:text-gray-900 shadow-sm hover:shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 border border-gray-200/50" onClick={() => navigate('/user-management')}>
                             <i className="fas fa-user-circle text-xl text-gray-600"></i>
                             <span className="font-medium text-base">个人中心</span>
                         </button>
@@ -144,7 +152,7 @@ const Navigation = () => {
                                         <span>帮助中心</span>
                                     </button>
                                     <div className="border-t border-gray-100 my-3"></div>
-                                    <button className="w-full flex items-center space-x-4 px-4 py-3 text-base text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200">
+                                    <button className="w-full flex items-center space-x-4 px-4 py-3 text-base text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200" onClick={handleLogout}>
                                         <i className="fas fa-sign-out-alt text-lg"></i>
                                         <span>退出登录</span>
                                     </button>

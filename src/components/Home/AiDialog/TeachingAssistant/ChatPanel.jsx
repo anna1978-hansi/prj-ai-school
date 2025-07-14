@@ -1,5 +1,5 @@
 // ChatPanel.js
-import React from 'react';
+import React, { useState } from 'react';
 import ChatMessage from './ChatMessage';
 import ChatInput from './ChatInput';
 
@@ -9,12 +9,40 @@ const ChatPanel = ({
     onInputChange,
     onSendMessage,
     isTyping = false,
-    chatEndRef
+    chatEndRef,
+    onEditUserMessage,
+    generatingAIId,
+    onStopAIResponse,
+    aiInterruptedId
 }) => {
-    const handleSend = (message) => {
-        if (onSendMessage) {
-            onSendMessage(message);
+    const [editingId, setEditingId] = useState(null);
+    const [editingValue, setEditingValue] = useState('');
+
+    // 找到最后一条用户消息的id
+    const lastUserMsgIndex = [...messages].reverse().findIndex(m => !m.isAI);
+    const lastUserMsgId = lastUserMsgIndex !== -1 ? messages[messages.length - 1 - lastUserMsgIndex].id : null;
+
+    // 复制功能（可扩展为提示）
+    const handleCopy = (content) => { };
+
+    // 修改功能（仅限用户消息）
+    const handleEdit = (id, content) => {
+        setEditingId(id);
+        setEditingValue(content);
+    };
+    const handleEditChange = (val) => {
+        setEditingValue(val);
+    };
+    const handleEditSave = async (id) => {
+        if (editingValue.trim() && typeof onEditUserMessage === 'function') {
+            await onEditUserMessage(id, editingValue);
         }
+        setEditingId(null);
+        setEditingValue('');
+    };
+    const handleEditCancel = () => {
+        setEditingId(null);
+        setEditingValue('');
     };
 
     return (
@@ -27,21 +55,38 @@ const ChatPanel = ({
                             isAI={message.isAI}
                             avatarIcon={message.avatarIcon}
                             content={message.content}
-                            details={message.details}
                             timestamp={message.timestamp}
+                            isEditable={
+                                (!message.isAI && message.id === lastUserMsgId) ||
+                                (message.isAI && message.id === aiInterruptedId)
+                            }
+                            isEditing={editingId === message.id}
+                            onCopy={handleCopy}
+                            onEdit={() => handleEdit(message.id, message.content)}
+                            onEditChange={handleEditChange}
+                            onEditSave={() => handleEditSave(message.id)}
+                            onEditCancel={handleEditCancel}
                         />
                     ))}
-
-
-
                     {/* 滚动到底部的锚点 */}
                     <div ref={chatEndRef} />
                 </div>
+                {/* AI流式生成时显示“停止生成”按钮 */}
+                {generatingAIId && (
+                    <div className="flex justify-center mt-2">
+                        <button
+                            className="px-4 py-1 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition-colors text-sm shadow"
+                            onClick={onStopAIResponse}
+                        >
+                            <i className="fas fa-stop mr-1"></i>停止生成
+                        </button>
+                    </div>
+                )}
             </div>
             <ChatInput
                 value={inputValue}
                 onChange={onInputChange}
-                onSend={handleSend}
+                onSend={onSendMessage}
             />
         </div>
     );

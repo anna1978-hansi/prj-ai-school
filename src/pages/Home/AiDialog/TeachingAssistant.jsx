@@ -16,10 +16,15 @@ const TeachingAssistant = () => {
             isAI: true,
             avatarIcon: "fa-robot",
             content: "您好！我是AI智能助手",
-            details: "我可以为您提供个性化的教学建议和资源。请问您需要什么帮助？",
             timestamp: new Date()
         }
     ]);
+
+    // 让 ChatPanel 能通过 window.setMessagesFromChatPanel 更新消息
+    useEffect(() => {
+        window.setMessagesFromChatPanel = setMessages;
+        return () => { window.setMessagesFromChatPanel = undefined; };
+    }, []);
 
     // 教学设计表单数据
     const [designData, setDesignData] = useState(teachingDesignData);
@@ -48,39 +53,63 @@ const TeachingAssistant = () => {
         scrollToBottom();
     }, [messages]);
 
-    // 发送消息到通义千问API
-    const handleSendMessage = async (message) => {
+    // AI流式生成中断控制
+    const aiAbortController = useRef(null);
+    const [generatingAIId, setGeneratingAIId] = useState(null); // 当前流式生成的AI消息id
+    const [aiInterruptedId, setAiInterruptedId] = useState(null); // 记录被中断的AI消息id
+
+    // 发送消息到通义千问API（支持中断）
+    const handleSendMessage = async (message, aiMsgIdToOverwrite = null) => {
         if (!message.trim()) return;
 
         // 用同一个时间戳生成id，确保唯一且配对
         const baseId = Date.now();
 
-        // 添加用户消息
-        const userMessage = {
-            id: baseId,
-            isAI: false,
-            content: message,
-            timestamp: new Date()
-        };
-
-        setMessages(prev => [...prev, userMessage]);
-        setInputValue('');
+        // 添加用户消息（仅在非覆盖模式下）
+        let userMessageId = baseId;
+        if (!aiMsgIdToOverwrite) {
+            const userMessage = {
+                id: baseId,
+                isAI: false,
+                content: message,
+                timestamp: new Date()
+            };
+            setMessages(prev => [...prev, userMessage]);
+            setInputValue('');
+        } else {
+            // 覆盖模式下，直接更新用户消息内容
+            setMessages(prev => prev.map(msg =>
+                msg.id === aiMsgIdToOverwrite.userId ? { ...msg, content: message } : msg
+            ));
+            userMessageId = aiMsgIdToOverwrite.userId;
+        }
         setIsTyping(true);
 
-        // 只插入一条空内容AI消息用于流式填充
-        const aiMessageId = baseId + 1;
-        const aiMessage = {
-            id: aiMessageId,
-            isAI: true,
-            avatarIcon: "fa-robot",
-            content: "",
-            details: "",
-            timestamp: new Date()
-        };
-        setMessages(prev => [...prev, aiMessage]);
+        // AI消息：如果是覆盖模式，直接覆盖原AI消息，否则插入新AI消息
+        const aiMessageId = aiMsgIdToOverwrite ? aiMsgIdToOverwrite.aiId : baseId + 1;
+        if (!aiMsgIdToOverwrite) {
+            const aiMessage = {
+                id: aiMessageId,
+                isAI: true,
+                avatarIcon: "fa-robot",
+                content: "",
+                timestamp: new Date()
+            };
+            setMessages(prev => [...prev, aiMessage]);
+        } else {
+            setMessages(prev => prev.map(msg =>
+                msg.id === aiMsgIdToOverwrite.aiId ? { ...msg, content: "" } : msg
+            ));
+        }
+        setGeneratingAIId(aiMessageId);
+        setAiInterruptedId(null);
+
+        // 支持中断
+        if (aiAbortController.current) aiAbortController.current.abort();
+        aiAbortController.current = new AbortController();
+        const signal = aiAbortController.current.signal;
 
         try {
-            // 调用通义千问API
             const response = await fetch("https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions", {
                 method: "POST",
                 headers: {
@@ -97,7 +126,8 @@ const TeachingAssistant = () => {
                         },
                         { role: "user", content: message }
                     ]
-                })
+                }),
+                signal
             });
 
             if (!response.ok) {
@@ -107,7 +137,6 @@ const TeachingAssistant = () => {
             const reader = response.body.getReader();
             const decoder = new TextDecoder("utf-8");
             let fullContent = "";
-            let fullDetails = "";
 
             while (true) {
                 const { done, value } = await reader.read();
@@ -127,11 +156,10 @@ const TeachingAssistant = () => {
                         const delta = json.choices?.[0]?.delta?.content;
                         if (delta) {
                             fullContent += delta;
-                            fullDetails += delta;
-                            // 只更新同一条AI消息内容，不追加新消息
+                            // 覆盖AI消息内容
                             setMessages(prev => prev.map(msg =>
                                 msg.id === aiMessageId
-                                    ? { ...msg, content: fullContent, details: fullDetails }
+                                    ? { ...msg, content: fullContent }
                                     : msg
                             ));
                         }
@@ -141,20 +169,38 @@ const TeachingAssistant = () => {
                 }
             }
         } catch (error) {
-            console.error("API调用失败:", error);
-            // 如果API调用失败，显示错误消息
-            setMessages(prev => prev.map(msg =>
-                msg.id === aiMessageId
-                    ? {
-                        ...msg,
-                        content: "抱歉，服务暂时不可用",
-                        details: "请稍后再试或检查网络连接"
-                    }
-                    : msg
-            ));
+            if (signal.aborted) {
+                // 只保留已生成内容，不追加提示
+                setAiInterruptedId(aiMessageId);
+            } else {
+                setMessages(prev => prev.map(msg =>
+                    msg.id === aiMessageId
+                        ? { ...msg, content: "抱歉，服务暂时不可用" }
+                        : msg
+                ));
+            }
         } finally {
             setIsTyping(false);
+            setGeneratingAIId(null);
         }
+    };
+
+    // 用户消息修改：直接覆盖用户消息和AI回复
+    const handleEditUserMessage = async (userMsgId, newContent) => {
+        // 找到紧跟其后的AI消息id
+        const userIdx = messages.findIndex(msg => msg.id === userMsgId);
+        let aiId = null;
+        for (let i = userIdx + 1; i < messages.length; i++) {
+            if (messages[i].isAI) { aiId = messages[i].id; break; }
+        }
+        if (aiId) {
+            await handleSendMessage(newContent, { userId: userMsgId, aiId });
+        }
+    };
+
+    // 停止AI回复
+    const handleStopAIResponse = () => {
+        if (aiAbortController.current) aiAbortController.current.abort();
     };
 
     // 新建对话
@@ -173,7 +219,6 @@ const TeachingAssistant = () => {
                 isAI: true,
                 avatarIcon: "fa-robot",
                 content: "您好！我是AI智能助手",
-                details: "我可以为您提供个性化的教学建议和资源。请问您需要什么帮助？",
                 timestamp: new Date()
             }
         ]);
@@ -229,6 +274,10 @@ const TeachingAssistant = () => {
                             onSendMessage={handleSendMessage}
                             isTyping={isTyping}
                             chatEndRef={chatEndRef}
+                            onEditUserMessage={handleEditUserMessage}
+                            generatingAIId={generatingAIId}
+                            onStopAIResponse={handleStopAIResponse}
+                            aiInterruptedId={aiInterruptedId}
                         />
                         {showDesignPanel && (
                             <TeachingDesignPanel

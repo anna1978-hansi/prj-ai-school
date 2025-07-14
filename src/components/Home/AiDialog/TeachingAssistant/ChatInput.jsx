@@ -62,9 +62,9 @@ const ChatInput = ({
         <div className="border-t pt-4">
             <div className="bg-gray-50 rounded-xl p-3 border border-gray-100 shadow-sm">
                 <textarea
-                    className="w-full bg-transparent border-none outline-none px-3 py-2 text-gray-700 placeholder-gray-400 resize-none"
+                    className="w-full bg-transparent border-none outline-none px-3 py-2 text-gray-700 placeholder-gray-400 resize-none min-h-[96px] max-h-60"
                     placeholder="请输入您的问题，选中下方提问获取多媒体资源..."
-                    rows="2"
+                    rows="4"
                     value={value}
                     onChange={(e) => onChange && onChange(e.target.value)}
                     onKeyPress={handleKeyPress}
@@ -96,8 +96,8 @@ const ChatInput = ({
                     </div>
                     <button
                         className={`px-4 py-2 rounded-full transition-colors flex items-center gap-2 ${value.trim()
-                                ? 'bg-primary text-white hover:bg-primary/90'
-                                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                            ? 'bg-primary text-white hover:bg-primary/90'
+                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                             }`}
                         onClick={handleSend}
                         disabled={!value.trim()}
