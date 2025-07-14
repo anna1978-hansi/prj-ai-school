@@ -231,6 +231,30 @@ const TeachingAssistant = () => {
         console.log('选择聊天:', chatId);
     };
 
+    // 删除对话历史
+    const handleDeleteChat = (chatId) => {
+        setChatHistoryList(prev => {
+            const idx = prev.findIndex(c => c.id === chatId);
+            const newList = prev.filter(c => c.id !== chatId);
+            // 自动切换到下一个或第一个对话
+            if (selectedChat === chatId) {
+                if (newList.length > 0) {
+                    setSelectedChat(newList[Math.min(idx, newList.length - 1)].id);
+                } else {
+                    setSelectedChat(null);
+                }
+            }
+            return newList;
+        });
+    };
+
+    // 重命名对话历史
+    const handleRenameChat = (chatId, newTitle) => {
+        setChatHistoryList(prev => prev.map(chat =>
+            chat.id === chatId ? { ...chat, title: newTitle } : chat
+        ));
+    };
+
     // 更新教学设计数据
     const handleDesignDataChange = (field, value) => {
         setDesignData(prev => ({
@@ -265,6 +289,8 @@ const TeachingAssistant = () => {
                         selectedChat={selectedChat}
                         onSelectChat={handleSelectChat}
                         onCreateNewChat={handleCreateNewChat}
+                        onDeleteChat={handleDeleteChat}
+                        onRenameChat={handleRenameChat}
                     />
                     <div className="flex flex-1 gap-4">
                         <ChatPanel

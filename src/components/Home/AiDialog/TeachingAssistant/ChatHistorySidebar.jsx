@@ -1,5 +1,5 @@
 // ChatHistorySidebar.js
-import React from 'react';
+import React, { useState } from 'react';
 
 const ChatHistorySidebar = ({
     expanded = false,
@@ -7,11 +7,37 @@ const ChatHistorySidebar = ({
     chatHistory = [],
     selectedChat = null,
     onSelectChat,
-    onCreateNewChat
+    onCreateNewChat,
+    onDeleteChat,
+    onRenameChat // 新增
 }) => {
+    const [editingId, setEditingId] = useState(null);
+    const [editValue, setEditValue] = useState('');
+
     const handleNewChat = () => {
         if (onCreateNewChat) {
             onCreateNewChat();
+        }
+    };
+    const handleDeleteChat = (id, e) => {
+        e.stopPropagation();
+        if (onDeleteChat) onDeleteChat(id);
+    };
+    const handleEditChat = (id, title, e) => {
+        e.stopPropagation();
+        setEditingId(id);
+        setEditValue(title);
+    };
+    const handleEditChange = (e) => setEditValue(e.target.value);
+    const handleEditBlur = (id) => {
+        if (onRenameChat && editValue.trim()) onRenameChat(id, editValue.trim());
+        setEditingId(null);
+    };
+    const handleEditKeyDown = (id, e) => {
+        if (e.key === 'Enter') {
+            handleEditBlur(id);
+        } else if (e.key === 'Escape') {
+            setEditingId(null);
         }
     };
 
@@ -45,14 +71,43 @@ const ChatHistorySidebar = ({
                 </div>
                 <div className="space-y-2 overflow-y-auto flex-1">
                     {chatHistory.map(chat => (
-                        <button
-                            key={chat.id}
-                            onClick={() => onSelectChat(chat.id)}
-                            className={`block w-full text-left p-3 rounded-lg text-sm text-gray-700 hover:bg-gray-100 truncate transition-colors ${selectedChat === chat.id ? 'bg-primary/10 text-primary border border-primary/20' : ''
-                                }`}
-                        >
-                            {chat.title}
-                        </button>
+                        <div key={chat.id} className="relative group flex items-center">
+                            {editingId === chat.id ? (
+                                <input
+                                    className="block w-full text-left p-3 rounded-lg text-sm border border-primary focus:ring-primary focus:border-primary outline-none"
+                                    value={editValue}
+                                    autoFocus
+                                    onChange={handleEditChange}
+                                    onBlur={() => handleEditBlur(chat.id)}
+                                    onKeyDown={e => handleEditKeyDown(chat.id, e)}
+                                />
+                            ) : (
+                                <button
+                                    onClick={() => onSelectChat(chat.id)}
+                                    className={`block w-full text-left p-3 rounded-lg text-sm text-gray-700 hover:bg-gray-100 truncate transition-colors ${selectedChat === chat.id ? 'bg-primary/10 text-primary border border-primary/20' : ''}`}
+                                >
+                                    {chat.title}
+                                </button>
+                            )}
+                            {/* 编辑按钮 */}
+                            {editingId !== chat.id && (
+                                <button
+                                    className="absolute top-1/2 right-8 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-primary p-1"
+                                    title="重命名"
+                                    onClick={e => handleEditChat(chat.id, chat.title, e)}
+                                >
+                                    <i className="fas fa-pen"></i>
+                                </button>
+                            )}
+                            {/* 删除按钮 */}
+                            <button
+                                className="absolute top-1/2 right-2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-red-500 p-1"
+                                title="删除对话"
+                                onClick={e => handleDeleteChat(chat.id, e)}
+                            >
+                                <i className="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
                     ))}
                 </div>
             </div>
