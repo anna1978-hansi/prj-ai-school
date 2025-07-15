@@ -23,9 +23,9 @@ const Resource = () => {
                 <Banner />
 
                 <main className="px-6">
-                    <ContentSection title="精品课程" items={coursesData} />
-                    <ContentSection title="教学设计" items={designsData} />
-                    <ContentSection title="海量资源" items={resourcesData} />
+                    <ContentSection title="精品课程" items={coursesData} lazy={false} />
+                    <ContentSection title="教学设计" items={designsData} lazy={true} />
+                    <ContentSection title="海量资源" items={resourcesData} lazy={true} />
                 </main>
             </div>
         </div >

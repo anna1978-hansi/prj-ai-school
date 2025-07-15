@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ResourceCard from './ResourceCard.jsx';
 
-const ContentSection = ({ title, items }) => {
+const ContentSection = ({ title, items, lazy = true }) => {
     // 新增分页逻辑
     const [page, setPage] = useState(0);
     const pageSize = 3;
@@ -38,7 +38,7 @@ const ContentSection = ({ title, items }) => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {pagedItems.map(item => (
-                    <ResourceCard key={item.id} {...item} />
+                    <ResourceCard key={item.id} {...item} lazy={lazy} />
                 ))}
             </div>
         </div>
