@@ -26,7 +26,7 @@ const ResourceCard = ({ imageUrl, title, author, avatarUrl, views, likes, lazy }
                             src={avatarUrl}
                             alt={author}
                             className="w-6 h-6 rounded-full"
-                            placeholder="/public/img/userpicture.jpg"
+                            placeholder="/public/img/userpicture--64w.jpg"
                             lazy={lazy}
                         />
                         <span>{author}</span>

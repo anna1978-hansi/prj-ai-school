@@ -14,7 +14,7 @@ const ChatPage = () => {
   const [currentUser, setCurrentUser] = useState({
     id: 'user_' + Math.random().toString(36).substr(2, 9),
     name: '张老师',
-    avatar: '/img/userpicture.jpg',
+    avatar: '/img/userpicture--64w.jpg',
     role: 'teacher',
     subject: '数学'
   });
@@ -284,8 +284,8 @@ const ChatPage = () => {
                   </div>
                 )}
                 <div className={`rounded-lg p-3 ${message.user.id === currentUser.id
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-100 text-gray-800'
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-gray-100 text-gray-800'
                   }`}>
                   {message.type === 'file' ? (
                     <div className="flex items-center space-x-2">

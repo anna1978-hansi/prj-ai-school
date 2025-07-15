@@ -114,7 +114,7 @@ const Navigation = () => {
                         <div className="relative group">
                             <button className="relative">
                                 <img
-                                    src="https://ai-public.mastergo.com/ai/img_res/350557424808b797c2bfbc14cc0a722c.jpg"
+                                    src="/img/userpicture--64w.jpg"
                                     className="w-12 h-12 rounded-full cursor-pointer ring-2 ring-white shadow-md hover:ring-blue-200 transition-all duration-300 ease-in-out transform hover:scale-105"
                                     alt="用户头像"
                                 />
@@ -127,7 +127,7 @@ const Navigation = () => {
                                 <div className="p-5 border-b border-gray-100">
                                     <div className="flex items-center space-x-4">
                                         <img
-                                            src="https://ai-public.mastergo.com/ai/img_res/350557424808b797c2bfbc14cc0a722c.jpg"
+                                            src="/img/userpicture--64w.jpg"
                                             className="w-14 h-14 rounded-full"
                                             alt="用户头像"
                                         />
