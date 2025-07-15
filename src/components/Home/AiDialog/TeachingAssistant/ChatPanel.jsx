@@ -78,7 +78,7 @@ const ChatPanel = ({
                             className="px-4 py-1 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition-colors text-sm shadow"
                             onClick={onStopAIResponse}
                         >
-                            <i className="fas fa-stop mr-1"></i>停止生成
+                            <FontAwesomeIcon icon={faStop} className="mr-1" />停止生成
                         </button>
                     </div>
                 )}

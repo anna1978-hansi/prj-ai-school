@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { sendVerificationCode, registerTeacher } from '../../../api/teachers';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faIdBadge, faEnvelope, faShieldAlt, faLock, faUniversity, faEye } from '@fortawesome/free-solid-svg-icons';
 const schoolOptions = [
     { id: 1, name: '清华大学' },
     { id: 2, name: '北京大学' },
@@ -131,7 +132,7 @@ const Register = () => {
                         <label htmlFor="jobId" className="block text-gray-700 mb-1">教师工号<span className="text-red-500">*</span></label>
                         <div className="relative">
                             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                                <i className="fas fa-id-badge"></i>
+                                <FontAwesomeIcon icon={faIdBadge} />
                             </span>
                             <input type="text" id="jobId" name="jobId" placeholder="请输入教师工号"
                                 className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-base bg-white" required
@@ -144,7 +145,7 @@ const Register = () => {
                         <label htmlFor="email" className="block text-gray-700 mb-1">邮箱地址<span className="text-red-500">*</span></label>
                         <div className="relative">
                             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                                <i className="fas fa-envelope"></i>
+                                <FontAwesomeIcon icon={faEnvelope} />
                             </span>
                             <input type="email" id="email" name="email" placeholder="请输入邮箱地址"
                                 className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-base bg-white" required
@@ -158,7 +159,7 @@ const Register = () => {
                         <div className="flex gap-2">
                             <div className="relative flex-1">
                                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                                    <i className="fas fa-shield-alt"></i>
+                                    <FontAwesomeIcon icon={faShieldAlt} />
                                 </span>
                                 <input type="text" id="code" name="code" placeholder="请输入邮箱验证码"
                                     className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-base bg-white" required
@@ -172,13 +173,13 @@ const Register = () => {
                         <label htmlFor="password" className="block text-gray-700 mb-1">设置密码</label>
                         <div className="relative">
                             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                                <i className="fas fa-lock"></i>
+                                <FontAwesomeIcon icon={faLock} />
                             </span>
                             <input type="password" id="password" name="password" placeholder="密码需包含字母和数字，长度8-20位"
                                 className="w-full pl-10 pr-10 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-base bg-white" required
                                 value={form.password} onChange={handleChange} onBlur={handleBlur} />
                             <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer">
-                                <i className="fas fa-eye"></i>
+                                <FontAwesomeIcon icon={faEye} />
                             </span>
                         </div>
                         <div className="text-xs text-gray-400 mt-1">密码需包含字母和数字，长度8-20位</div>
@@ -189,13 +190,13 @@ const Register = () => {
                         <label htmlFor="confirmPassword" className="block text-gray-700 mb-1">确认密码</label>
                         <div className="relative">
                             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                                <i className="fas fa-lock"></i>
+                                <FontAwesomeIcon icon={faLock} />
                             </span>
                             <input type="password" id="confirmPassword" name="confirmPassword" placeholder="请再次输入密码"
                                 className="w-full pl-10 pr-10 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-base bg-white" required
                                 value={form.confirmPassword} onChange={handleChange} onBlur={handleBlur} />
                             <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer">
-                                <i className="fas fa-eye"></i>
+                                <FontAwesomeIcon icon={faEye} />
                             </span>
                         </div>
                         {touched.confirmPassword && errors.confirmPassword && <div className="text-xs text-red-500 mt-1">{errors.confirmPassword}</div>}
@@ -205,7 +206,7 @@ const Register = () => {
                         <label htmlFor="school" className="block text-gray-700 mb-1">所属学校</label>
                         <div className="relative">
                             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                                <i className="fas fa-university"></i>
+                                <FontAwesomeIcon icon={faUniversity} />
                             </span>
                             <select id="school" name="schoolId" className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-base bg-white" required value={form.schoolId} onChange={handleChange}>
                                 <option value="">请选择学校</option>

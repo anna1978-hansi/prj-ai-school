@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch, faFilter, faChevronDown, faClock, faStar, faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
 const CourseTitle = () => {
     const [openDropdown, setOpenDropdown] = useState(null); // 'filter' | 'time' | 'rating' | null
 
@@ -29,7 +30,7 @@ const CourseTitle = () => {
                             className="px-4 py-2 w-64 text-sm focus:outline-none"
                         />
                         <button className="bg-blue-600 text-white px-4 flex items-center justify-center hover:bg-blue-700 transition">
-                            <i className="fas fa-search text-base"></i>
+                            <FontAwesomeIcon icon={faSearch} className="text-base" />
                         </button>
                     </div>
 
@@ -41,9 +42,9 @@ const CourseTitle = () => {
                             }
                             className="flex items-center px-4 py-2 text-sm border border-gray-300 rounded-lg bg-white hover:bg-gray-100 transition"
                         >
-                            <i className="fas fa-filter text-gray-500 mr-2"></i>
+                            <FontAwesomeIcon icon={faFilter} className="text-gray-500 mr-2" />
                             筛选
-                            <i className="fas fa-chevron-down text-gray-400 ml-2 text-xs"></i>
+                            <FontAwesomeIcon icon={faChevronDown} className="text-gray-400 ml-2 text-xs" />
                         </button>
 
                         {openDropdown === "filter" && (
@@ -71,19 +72,19 @@ const CourseTitle = () => {
                             }
                             className="flex items-center px-4 py-2 text-sm border border-gray-300 rounded-lg bg-white hover:bg-gray-100 transition"
                         >
-                            <i className="fas fa-clock text-gray-500 mr-2"></i>
+                            <FontAwesomeIcon icon={faClock} className="text-gray-500 mr-2" />
                             按时间排序
-                            <i className="fas fa-chevron-down text-gray-400 ml-2 text-xs"></i>
+                            <FontAwesomeIcon icon={faChevronDown} className="text-gray-400 ml-2 text-xs" />
                         </button>
 
                         {openDropdown === "time" && (
                             <div className="absolute left-0 top-full mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-30">
                                 <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
-                                    <i className="fas fa-arrow-down text-gray-400 mr-2"></i>
+                                    <FontAwesomeIcon icon={faArrowDown} className="text-gray-400 mr-2" />
                                     降序
                                 </button>
                                 <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
-                                    <i className="fas fa-arrow-up text-gray-400 mr-2"></i>
+                                    <FontAwesomeIcon icon={faArrowUp} className="text-gray-400 mr-2" />
                                     升序
                                 </button>
                             </div>
@@ -98,19 +99,21 @@ const CourseTitle = () => {
                             }
                             className="flex items-center px-4 py-2 text-sm border border-gray-300 rounded-lg bg-white hover:bg-gray-100 transition"
                         >
-                            <i className="fas fa-star text-gray-500 mr-2"></i>
+                            <FontAwesomeIcon icon={faStar} className="text-gray-500 mr-2" />
                             按评价排序
-                            <i className="fas fa-chevron-down text-gray-400 ml-2 text-xs"></i>
+                            <FontAwesomeIcon icon={faChevronDown} className="text-gray-400 ml-2 text-xs" />
+
+
                         </button>
 
                         {openDropdown === "rating" && (
                             <div className="absolute left-0 top-full mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-30">
                                 <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
-                                    <i className="fas fa-arrow-down text-gray-400 mr-2"></i>
+                                    <FontAwesomeIcon icon={faArrowDown} className="text-gray-400 mr-2" />
                                     降序
                                 </button>
                                 <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
-                                    <i className="fas fa-arrow-up text-gray-400 mr-2"></i>
+                                    <FontAwesomeIcon icon={faArrowUp} className="text-gray-400 mr-2" />
                                     升序
                                 </button>
                             </div>

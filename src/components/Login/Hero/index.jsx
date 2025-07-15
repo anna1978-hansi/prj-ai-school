@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { getCaptcha, loginTeacher } from '../../../api/teachers';
 import { useDispatch } from 'react-redux';
 import { setAccessToken } from '@/store/modules/auth/actions';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser, faLock, faShieldAlt, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 const Hero = () => {
   const navigate = useNavigate();
   const [captchaImg, setCaptchaImg] = useState('');
@@ -66,7 +67,7 @@ const Hero = () => {
     <form className="space-y-6" onSubmit={handleLogin}>
       <div>
         <div className="relative">
-          <i className="fas fa-user absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+          <FontAwesomeIcon icon={faUser} className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
           <input
             type="email"
             placeholder="邮箱"
@@ -80,7 +81,7 @@ const Hero = () => {
 
       <div>
         <div className="relative">
-          <i className="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+          <FontAwesomeIcon icon={faLock} className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
           <input
             type="password"
             placeholder="密码"
@@ -95,7 +96,7 @@ const Hero = () => {
       <div>
         <div className="relative flex space-x-2">
           <div className="relative flex-1">
-            <i className="fas fa-shield-alt absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+            <FontAwesomeIcon icon={faShieldAlt} className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <input
               type="text"
               placeholder="图形验证码"

@@ -1,6 +1,8 @@
 // ChatMessage.js
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCopy, faPen, faTrashAlt, faPaperPlane, faUser } from '@fortawesome/free-solid-svg-icons';
 
 const ChatMessage = ({
     isAI,
@@ -60,7 +62,7 @@ const ChatMessage = ({
         return (
             <div className="flex items-start group relative">
                 <div className="w-8 h-8 rounded-full bg-primary flex-shrink-0 flex items-center justify-center shadow-md">
-                    <i className={`fas ${avatarIcon} text-white text-lg`}></i>
+                    <FontAwesomeIcon icon={faUser} className="text-white text-lg" />
                 </div>
                 <div className="ml-4 mb-4 bg-gradient-to-br from-indigo-50 to-white p-6 rounded-2xl chat-message shadow-sm border border-indigo-100 relative">
                     <div>
@@ -82,7 +84,7 @@ const ChatMessage = ({
                             onClick={handleCopy}
                             title="复制"
                         >
-                            <i className="fas fa-copy text-base"></i>
+                            <FontAwesomeIcon icon={faCopy} className="text-base" />
                         </button>
                     </div>
                     {copied && (
@@ -134,7 +136,7 @@ const ChatMessage = ({
                                     onClick={handleCopy}
                                     title="复制"
                                 >
-                                    <i className="fas fa-copy text-sm"></i>
+                                    <FontAwesomeIcon icon={faCopy} className="text-sm" />
                                 </button>
                                 {!isAI && isEditable && !isEditing && (
                                     <button
@@ -142,7 +144,7 @@ const ChatMessage = ({
                                         onClick={handleEdit}
                                         title="修改"
                                     >
-                                        <i className="fas fa-pen text-sm"></i>
+                                        <FontAwesomeIcon icon={faPen} className="text-sm" />
                                     </button>
                                 )}
                             </div>
@@ -154,7 +156,7 @@ const ChatMessage = ({
                 )}
             </div>
             <div className="w-8 h-8 rounded-full bg-blue-500 flex-shrink-0 flex items-center justify-center shadow-md">
-                <i className="fas fa-user text-white text-lg"></i>
+                <FontAwesomeIcon icon={faUser} className="text-white text-lg" />
             </div>
         </div>
     );

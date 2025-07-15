@@ -1,6 +1,7 @@
 // ChatInput.js
 import React, { useState } from 'react';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faImage, faVideo, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 const ChatInput = ({
     value = '',
     onChange,
@@ -77,7 +78,7 @@ const ChatInput = ({
                             disabled={isUploading}
                             title="上传图片"
                         >
-                            <i className={`fas fa-image ${isUploading ? 'opacity-50' : ''}`}></i>
+                            <FontAwesomeIcon icon={faImage} className={`${isUploading ? 'opacity-50' : ''}`} />
                         </button>
                         <button
                             className="p-2 text-gray-500 hover:text-purple-600 rounded-lg hover:bg-gray-100 transition-colors"
@@ -85,7 +86,7 @@ const ChatInput = ({
                             disabled={isUploading}
                             title="上传视频"
                         >
-                            <i className={`fas fa-video ${isUploading ? 'opacity-50' : ''}`}></i>
+                            <FontAwesomeIcon icon={faVideo} className={`${isUploading ? 'opacity-50' : ''}`} />
                         </button>
                     </div>
                     <div className="flex-1 mx-4 text-sm text-gray-500">
@@ -103,7 +104,7 @@ const ChatInput = ({
                         disabled={!value.trim()}
                     >
                         <span>发送</span>
-                        <i className="fas fa-paper-plane"></i>
+                        <FontAwesomeIcon icon={faPaperPlane} />
                     </button>
                 </div>
             </div>

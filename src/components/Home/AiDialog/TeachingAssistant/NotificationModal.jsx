@@ -1,7 +1,8 @@
 // NotificationModal.js
 import React from 'react';
 import { notifications } from './data';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 const NotificationModal = () => {
     return (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 justify-center items-center z-50 flex opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out modal hidden">
@@ -9,7 +10,7 @@ const NotificationModal = () => {
                 <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
                     <h2 className="text-lg font-semibold text-gray-800">消息列表</h2>
                     <button className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors rounded-full hover:bg-gray-100">
-                        <i className="fas fa-times text-sm"></i>
+                        <FontAwesomeIcon icon={faTimes} className="text-sm" />
                     </button>
                 </div>
                 <div className="max-h-[480px] overflow-y-auto">
@@ -30,7 +31,7 @@ const NotificationModal = () => {
                 <div className="px-6 py-4 border-t border-gray-50 flex justify-between items-center bg-gray-50/30">
                     <span className="text-sm text-gray-500">共 {notifications.filter(n => !n.isRead).length} 条未读消息</span>
                     <button className="px-4 py-2 bg-primary text-white text-sm font-medium rounded-button hover:bg-primary/90">
-                        <i className="fas fa-check text-xs mr-2"></i>
+                        <FontAwesomeIcon icon={faCheck} className="text-xs mr-2" />
                         <span>全部已读</span>
                     </button>
                 </div>

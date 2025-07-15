@@ -1,6 +1,7 @@
 // ChatHistorySidebar.js
 import React, { useState } from 'react';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus, faAngleDoubleLeft, faPen, faTrashAlt, faChevronRight, faFilePowerpoint } from '@fortawesome/free-solid-svg-icons'
 const ChatHistorySidebar = ({
     expanded = false,
     onToggle,
@@ -58,14 +59,14 @@ const ChatHistorySidebar = ({
                             onClick={handleNewChat}
                             title="新建对话"
                         >
-                            <i className="fas fa-plus"></i>
+                            <FontAwesomeIcon icon={faPlus} />
                         </button>
                         <button
                             className="text-gray-500 hover:text-primary"
                             onClick={onToggle}
                             title="收起侧边栏"
                         >
-                            <i className="fas fa-angle-double-left text-sm"></i>
+                            <FontAwesomeIcon icon={faAngleDoubleLeft} className="text-sm" />
                         </button>
                     </div>
                 </div>
@@ -96,7 +97,7 @@ const ChatHistorySidebar = ({
                                     title="重命名"
                                     onClick={e => handleEditChat(chat.id, chat.title, e)}
                                 >
-                                    <i className="fas fa-pen"></i>
+                                    <FontAwesomeIcon icon={faPen} />
                                 </button>
                             )}
                             {/* 删除按钮 */}
@@ -105,7 +106,7 @@ const ChatHistorySidebar = ({
                                 title="删除对话"
                                 onClick={e => handleDeleteChat(chat.id, e)}
                             >
-                                <i className="fas fa-trash-alt"></i>
+                                <FontAwesomeIcon icon={faTrashAlt} />
                             </button>
                         </div>
                     ))}
@@ -120,7 +121,7 @@ const ChatHistorySidebar = ({
                         onClick={onToggle}
                         className="text-gray-500 hover:text-primary transition-colors"
                     >
-                        <i className="fas fa-chevron-right text-lg"></i>
+                        <FontAwesomeIcon icon={faChevronRight} className="text-lg" />
                     </button>
                 </div>
                 <div className="flex flex-col items-center space-y-8">
@@ -129,14 +130,14 @@ const ChatHistorySidebar = ({
                         onClick={handleNewChat}
                         className="text-gray-500 hover:text-primary transition-colors"
                     >
-                        <i className="fas fa-plus text-lg"></i>
+                        <FontAwesomeIcon icon={faPlus} className="text-lg" />
                     </button>
                     <button
                         title="制作PPT"
                         onClick={handleCreatePPT}
                         className="text-gray-500 hover:text-primary transition-colors"
                     >
-                        <i className="fas fa-file-powerpoint text-lg"></i>
+                        <FontAwesomeIcon icon={faFilePowerpoint} className="text-lg" />
                     </button>
                 </div>
             </div>

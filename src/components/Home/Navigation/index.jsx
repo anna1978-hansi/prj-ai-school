@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBook, faRobot, faUsers, faBell, faUserCircle, faSignOutAlt, faCog, faQuestionCircle, faUserCog } from '@fortawesome/free-solid-svg-icons';
 
 const Navigation = () => {
     const navigate = useNavigate();
@@ -18,10 +20,10 @@ const Navigation = () => {
     };
 
     const navItems = [
-        { id: 'courses', path: 'course', label: '课程', icon: 'fas fa-book' },
+        { id: 'courses', path: 'course', label: '课程', icon: faBook },
         // { id: 'repository', path: 'repository', label: '个人仓库', icon: 'fas fa-folder' },
-        { id: 'tools', path: 'aiDialog', label: 'AI 教学工具', icon: 'fas fa-robot' },
-        { id: 'community', path: 'resource', label: '资源社区', icon: 'fas fa-users' },
+        { id: 'tools', path: 'aiDialog', label: 'AI 教学工具', icon: faRobot },
+        { id: 'community', path: 'resource', label: '资源社区', icon: faUsers },
         // { id: 'message', path: 'message', label: '消息', icon: 'fas fa-comments' },
         // { id: 'chat', path: 'chat', label: '聊天', icon: 'fas fa-comments' },
     ];
@@ -61,7 +63,7 @@ const Navigation = () => {
                                                 : 'text-gray-600 hover:text-blue-600 hover:bg-white/70 hover:shadow-md'}`}
                                     >
                                         <div className="flex items-center ">
-                                            <i className={`${item.icon} text-lg ${isActive ? 'text-blue-500' : 'text-gray-400 group-hover:text-blue-500'}`}></i>
+                                            <FontAwesomeIcon icon={item.icon} className={`text-lg ${isActive ? 'text-blue-500' : 'text-gray-400 group-hover:text-blue-500'}`} />
                                             <span>{item.label}</span>
                                         </div>
                                         {isActive && (
@@ -78,7 +80,7 @@ const Navigation = () => {
                         {/* 通知铃铛 */}
                         <div className="relative group">
                             <button className="relative p-4 rounded-full bg-white/80 hover:bg-white shadow-sm hover:shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 border border-gray-200/50">
-                                <i className="fas fa-bell text-gray-600 text-xl" />
+                                <FontAwesomeIcon icon={faBell} className="text-gray-600 text-xl" />
                                 <span className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-red-400 to-red-500 text-white text-sm rounded-full flex items-center justify-center font-medium shadow-sm">
                                     3
                                 </span>
@@ -106,7 +108,7 @@ const Navigation = () => {
 
                         {/* 个人中心按钮 */}
                         <button className="hidden md:flex items-center space-x-3 px-6 py-3 rounded-full bg-white/80 hover:bg-white text-gray-700 hover:text-gray-900 shadow-sm hover:shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 border border-gray-200/50" onClick={() => navigate('/user-management')}>
-                            <i className="fas fa-user-circle text-xl text-gray-600"></i>
+                            <FontAwesomeIcon icon={faUserCircle} className="text-xl text-gray-600" />
                             <span className="font-medium text-base">个人中心</span>
                         </button>
 
@@ -142,20 +144,20 @@ const Navigation = () => {
                                 {/* 菜单项 */}
                                 <div className="p-3">
                                     <button className="w-full flex items-center space-x-4 px-4 py-3 text-base text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors duration-200">
-                                        <i className="fas fa-user-cog text-gray-400 text-lg"></i>
+                                        <FontAwesomeIcon icon={faUserCog} className="text-gray-400 text-lg" />
                                         <span>账号设置</span>
                                     </button>
                                     <button className="w-full flex items-center space-x-4 px-4 py-3 text-base text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors duration-200">
-                                        <i className="fas fa-cog text-gray-400 text-lg"></i>
+                                        <FontAwesomeIcon icon={faCog} className="text-gray-400 text-lg" />
                                         <span>偏好设置</span>
                                     </button>
                                     <button className="w-full flex items-center space-x-4 px-4 py-3 text-base text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors duration-200">
-                                        <i className="fas fa-question-circle text-gray-400 text-lg"></i>
+                                        <FontAwesomeIcon icon={faQuestionCircle} className="text-gray-400 text-lg" />
                                         <span>帮助中心</span>
                                     </button>
                                     <div className="border-t border-gray-100 my-3"></div>
                                     <button className="w-full flex items-center space-x-4 px-4 py-3 text-base text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200" onClick={handleLogout}>
-                                        <i className="fas fa-sign-out-alt text-lg"></i>
+                                        <FontAwesomeIcon icon={faSignOutAlt} className="text-lg" />
                                         <span>退出登录</span>
                                     </button>
                                 </div>

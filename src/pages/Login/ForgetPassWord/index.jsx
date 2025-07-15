@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { sendVerificationCode, forgetPasswordUpdate } from '../../../api/teachers';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope, faShieldAlt, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 const ForgetPassWord = () => {
     const [email, setEmail] = useState('');
     const [captcha, setCaptcha] = useState('');
@@ -79,7 +80,7 @@ const ForgetPassWord = () => {
                         <label htmlFor="email" className="block text-gray-700 mb-2 text-base">邮箱地址</label>
                         <div className="relative">
                             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                                <i className="fas fa-envelope"></i>
+                                <FontAwesomeIcon icon={faEnvelope} />
                             </span>
                             <input type="email" id="email" name="email" placeholder="请输入邮箱地址"
                                 className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-base bg-white" required
@@ -92,7 +93,7 @@ const ForgetPassWord = () => {
                         <div className="flex gap-3">
                             <div className="relative flex-1">
                                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                                    <i className="fas fa-shield-alt"></i>
+                                    <FontAwesomeIcon icon={faShieldAlt} />
                                 </span>
                                 <input type="text" id="code" name="code" placeholder="请输入验证码"
                                     className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-base bg-white" required
@@ -106,13 +107,13 @@ const ForgetPassWord = () => {
                         <label htmlFor="password" className="block text-gray-700 mb-2 text-base">新密码</label>
                         <div className="relative">
                             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                                <i className="fas fa-lock"></i>
+                                <FontAwesomeIcon icon={faLock} />
                             </span>
                             <input type="password" id="password" name="password" placeholder="请设置新密码"
                                 className="w-full pl-12 pr-12 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-base bg-white" required
                                 value={password} onChange={e => setPassword(e.target.value)} />
                             <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer">
-                                <i className="fas fa-eye"></i>
+                                <FontAwesomeIcon icon={faEyeSlash} />
                             </span>
                         </div>
                         <div className="text-sm text-gray-400 mt-2">密码需包含字母和数字，长度8-20位</div>
@@ -122,13 +123,13 @@ const ForgetPassWord = () => {
                         <label htmlFor="confirmPassword" className="block text-gray-700 mb-2 text-base">确认新密码</label>
                         <div className="relative">
                             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                                <i className="fas fa-lock"></i>
+                                <FontAwesomeIcon icon={faLock} />
                             </span>
                             <input type="password" id="confirmPassword" name="confirmPassword" placeholder="请再次输入新密码"
                                 className="w-full pl-12 pr-12 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-base bg-white" required
                                 value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
                             <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer">
-                                <i className="fas fa-eye"></i>
+                                <FontAwesomeIcon icon={faEyeSlash} />
                             </span>
                         </div>
                     </div>

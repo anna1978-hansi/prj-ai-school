@@ -1,5 +1,6 @@
 import React from 'react';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser, faStar } from '@fortawesome/free-solid-svg-icons'
 const CourseCard = ({ image, title, description, students, rating, status, access }) => {
     return (
         <div className="bg-white rounded-xl shadow-md overflow-hidden w-full max-w-sm transition hover:shadow-lg">
@@ -10,13 +11,13 @@ const CourseCard = ({ image, title, description, students, rating, status, acces
 
                 <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
                     <div className="flex items-center space-x-1">
-                        <i className="fas fa-user text-gray-500 text-base"></i>
+                        <FontAwesomeIcon icon={faUser} className="text-gray-500 text-base" />
 
 
                         <span>{students} 名学生</span>
                     </div>
                     <div className="flex items-center space-x-1">
-                        <i className="fas fa-star text-yellow-400 text-base"></i>
+                        <FontAwesomeIcon icon={faStar} className="text-yellow-400 text-base" />
                         <span>{rating}</span>
                     </div>
                 </div>

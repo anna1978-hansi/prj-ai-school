@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState, useMemo, useRef } from 'react';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronDown, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 // 这是一个功能完整的日历组件
 export default function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -191,7 +192,7 @@ export default function Calendar() {
               <span className="text-xl font-semibold text-gray-900">
                 {formatDate(currentDate)}
               </span>
-              <i className={`fas fa-chevron-down text-gray-500 ml-2 transition-transform ${isPickerOpen ? 'rotate-180' : ''}`}></i>
+              <FontAwesomeIcon icon={faChevronDown} className={`text-gray-500 ml-2 transition-transform ${isPickerOpen ? 'rotate-180' : ''}`} />
             </button>
 
             {/* 日期选择器下拉框 */}
@@ -202,14 +203,14 @@ export default function Calendar() {
                     className="!rounded-button p-1 hover:bg-gray-100"
                     onClick={() => selectYear(currentDate.getFullYear() - 1)}
                   >
-                    <i className="fas fa-chevron-left text-gray-500"></i>
+                    <FontAwesomeIcon icon={faChevronLeft} className="text-gray-500" />
                   </button>
                   <div className="text-sm font-medium">{currentDate.getFullYear()}</div>
                   <button
                     className="!rounded-button p-1 hover:bg-gray-100"
                     onClick={() => selectYear(currentDate.getFullYear() + 1)}
                   >
-                    <i className="fas fa-chevron-right text-gray-500"></i>
+                    <FontAwesomeIcon icon={faChevronRight} className="text-gray-500" />
                   </button>
                 </div>
                 <div className="grid grid-cols-3 gap-2">
@@ -234,13 +235,13 @@ export default function Calendar() {
               onClick={goToPreviousMonth}
               className="!rounded-button p-2 hover:bg-gray-100 text-gray-600"
             >
-              <i className="fas fa-chevron-left"></i>
+              <FontAwesomeIcon icon={faChevronLeft} />
             </button>
             <button
               onClick={goToNextMonth}
               className="!rounded-button p-2 hover:bg-gray-100 text-gray-600"
             >
-              <i className="fas fa-chevron-right"></i>
+              <FontAwesomeIcon icon={faChevronRight} />
             </button>
           </div>
         </div>
