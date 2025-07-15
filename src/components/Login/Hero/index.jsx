@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getCaptcha, loginTeacher } from '../../../api/teachers';
+import { useDispatch } from 'react-redux';
+import { setAccessToken } from '@/store/modules/auth/actions';
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -10,6 +12,7 @@ const Hero = () => {
   const [captchaValue, setCaptchaValue] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -22,10 +25,14 @@ const Hero = () => {
       });
       if (res.code === 200) {
         alert('登录成功');
+        if (res.data && res.data.accessToken) {
+          dispatch(setAccessToken(res.data.accessToken));
+        }
         console.log(res.data);
         navigate('/home');
         // 这里可以处理res.data，比如保存token、跳转等
       } else {
+        // alert(11111);
         alert(res.msg || '登录失败');
         fetchCaptcha(); // 登录失败刷新验证码
       }

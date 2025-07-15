@@ -16,7 +16,7 @@ const CourseCard = ({ image, title, description, students, rating, status, acces
                         <span>{students} 名学生</span>
                     </div>
                     <div className="flex items-center space-x-1">
-                        <span className="material-icons text-yellow-400 text-base">star</span>
+                        <i className="fas fa-star text-yellow-400 text-base"></i>
                         <span>{rating}</span>
                     </div>
                 </div>

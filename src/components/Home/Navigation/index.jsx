@@ -48,7 +48,9 @@ const Navigation = () => {
                         {/* 导航菜单 */}
                         <div className="flex space-x-2">
                             {navItems.map((item) => {
-                                const isActive = location.pathname.startsWith(`/home/${item.path}`);
+                                // 修复：/home 或 /home/ 时默认课程高亮
+                                const isHomeRoot = location.pathname === '/home' || location.pathname === '/home/';
+                                const isActive = (item.path === 'course' && isHomeRoot) || location.pathname.startsWith(`/home/${item.path}`);
                                 return (
                                     <button
                                         key={item.id}

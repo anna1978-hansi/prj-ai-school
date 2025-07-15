@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createBrowserRouter, RouterProvider, Routes, Route, Navigate } from 'react-router-dom';
 import Login from '../pages/Login';
 import Register from '../pages/Login/Register/index.jsx';
@@ -14,19 +14,65 @@ import LearningAnalysis from "@/pages/Home/AiDialog/LearningAnalysis.jsx";
 import TeachingPlan from "@/pages/Home/AiDialog/TeachingPlan.jsx";
 import UserManagement from "@/pages/UserManagement/index.jsx";
 import ChatPage from "@/pages/Home/ChatRoom/ChatPage.jsx";
-// 简单的身份验证检查，实际项目中应该使用更复杂的身份验证逻辑
-const isAuthenticated = () => {
-  // 这里可以检查localStorage或其他存储中的token
-  return localStorage.getItem('isLoggedIn') === 'true';
+import { useSelector, useDispatch } from 'react-redux';
+import { setAccessToken, removeAccessToken } from '@/store/modules/auth/actions';
+import axios from 'axios';
+
+
+const isAuthenticated = async (dispatch, getState) => {
+  const accessToken = getState().auth.accessToken;
+  if (accessToken) return true;
+
+  // 没有token，尝试刷新
+  try {
+    const res = await axios.post('/refresh');
+    if (res.data.code === 200 && res.data.accessToken) {
+      dispatch(setAccessToken(res.data.accessToken));
+      return true;
+    }
+    // 刷新失败
+    dispatch(removeAccessToken());
+    return false;
+  } catch (e) {
+    dispatch(removeAccessToken());
+    return false;
+  }
 };
 
-// 受保护的路由组件 - 这个在createBrowserRouter中可以通过loader实现，但为了保持简单，我们保留这个组件
+// 受保护的路由组件，支持异步鉴权
 const ProtectedRoute = ({ children }) => {
-  if (!isAuthenticated()) {
-    // 如果未认证，重定向到登录页面
-    return <Navigate to="/login" replace />;
-  }
+  const dispatch = useDispatch();
+  const accessToken = useSelector(state => state.auth ? state.auth.accessToken : null);
+  const [loading, setLoading] = useState(true);
+  const [authed, setAuthed] = useState(false);
 
+  useEffect(() => {
+    const checkAuth = async () => {
+      if (accessToken) {
+        setAuthed(true);
+        setLoading(false);
+        return;
+      }
+      try {
+        const res = await axios.post('/refresh');
+        if (res.data.code === 200 && res.data.accessToken) {
+          dispatch(setAccessToken(res.data.accessToken));
+          setAuthed(true);
+        } else {
+          dispatch(removeAccessToken());
+          setAuthed(false);
+        }
+      } catch (e) {
+        dispatch(removeAccessToken());
+        setAuthed(false);
+      }
+      setLoading(false);
+    };
+    checkAuth();
+  }, [accessToken, dispatch]);
+
+  if (loading) return <div>正在校验身份，请稍候...</div>;
+  if (!authed) return <Navigate to="/login" replace />;
   return children;
 };
 
@@ -54,7 +100,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/home',
-    element: <Home />,
+    element: (
+      <ProtectedRoute>
+        <Home />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
