@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense, lazy } from 'react';
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
-import Login from '../pages/Login';
-import Register from '../pages/Login/Register/index.jsx';
-import ForgetPassWord from '../pages/Login/ForgetPassWord/index.jsx';
-import Home from "@/pages/Home/index.jsx";
-import AiDialog from "@/pages/Home/AiDialog/index.jsx";
-import Resource from "@/pages/Home/Resource/index.jsx";
-import Repo from "@/pages/Home/Repo/index.jsx";
-import Course from "@/pages/Home/Course/index.jsx";
-import Message from "@/pages/Home/Message/index.jsx";
-import TeachingAssistant from "@/pages/Home/AiDialog/TeachingAssistant.jsx";
-import LearningAnalysis from "@/pages/Home/AiDialog/LearningAnalysis.jsx";
-import TeachingPlan from "@/pages/Home/AiDialog/TeachingPlan.jsx";
-import UserManagement from "@/pages/UserManagement/index.jsx";
-import ChatPage from "@/pages/Home/ChatRoom/ChatPage.jsx";
+// 页面组件懒加载
+const Login = lazy(() => import('../pages/Login'));
+const Register = lazy(() => import('../pages/Login/Register/index.jsx'));
+const ForgetPassWord = lazy(() => import('../pages/Login/ForgetPassWord/index.jsx'));
+const Home = lazy(() => import('@/pages/Home/index.jsx'));
+const AiDialog = lazy(() => import('@/pages/Home/AiDialog/index.jsx'));
+const Resource = lazy(() => import('@/pages/Home/Resource/index.jsx'));
+const Repo = lazy(() => import('@/pages/Home/Repo/index.jsx'));
+const Course = lazy(() => import('@/pages/Home/Course/index.jsx'));
+const Message = lazy(() => import('@/pages/Home/Message/index.jsx'));
+const TeachingAssistant = lazy(() => import('@/pages/Home/AiDialog/TeachingAssistant.jsx'));
+const LearningAnalysis = lazy(() => import('@/pages/Home/AiDialog/LearningAnalysis.jsx'));
+const TeachingPlan = lazy(() => import('@/pages/Home/AiDialog/TeachingPlan.jsx'));
+const UserManagement = lazy(() => import('@/pages/UserManagement/index.jsx'));
+const ChatPage = lazy(() => import('@/pages/Home/ChatRoom/ChatPage.jsx'));
 import { useSelector, useDispatch } from 'react-redux';
 import { setAccessToken, removeAccessToken } from '@/store/modules/auth/actions';
 import axios from 'axios';
@@ -69,19 +70,19 @@ const router = createBrowserRouter([
   { path: '/', element: <Navigate to="/login" replace /> },
   {
     path: '/login',
-    element: <Login />,
+    element: <Login />, // 懒加载组件
   },
   {
     path: '/register',
-    element: <Register />,
+    element: <Register />, // 懒加载组件
   },
   {
     path: '/forget-password',
-    element: <ForgetPassWord />,
+    element: <ForgetPassWord />, // 懒加载组件
   },
   {
     path: 'user-management',
-    element: <UserManagement />
+    element: <UserManagement /> // 懒加载组件
   },
   {
     path: '/home',
@@ -97,7 +98,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'aiDialog',
-        element: <AiDialog />,
+        element: <AiDialog />, // 懒加载组件
         children: [
           {
             index: true,
@@ -147,7 +148,11 @@ const router = createBrowserRouter([
 ]);
 
 const Router = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <RouterProvider router={router} />
+    </Suspense>
+  );
 };
 
 export default Router;

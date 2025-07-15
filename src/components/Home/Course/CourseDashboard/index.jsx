@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import CourseTitle from "@/components/Home/Course/CourseDashboard/CourseTitle/index.jsx";
 import CourseList from "@/components/Home/Course/CourseDashboard/CourseList/index.jsx";
+import { Pagination } from "@mui/material";
 
 const PAGE_SIZE = 3; // 每页显示课程数
 
@@ -13,17 +14,12 @@ const CourseDashboard = () => {
             <CourseTitle />
             <CourseList page={page} pageSize={PAGE_SIZE} />
             <div className="flex justify-center mt-4">
-                <button
-                    className="px-4 py-2 mx-1 rounded bg-gray-200 hover:bg-blue-400 text-gray-700 hover:text-white transition-colors"
-                    onClick={() => setPage(page - 1)}
-                    disabled={page === 1}
-                >上一页</button>
-                <span className="px-2">第 {page} 页</span>
-                <button
-                    className="px-4 py-2 mx-1 rounded bg-gray-200 hover:bg-blue-400 text-gray-700 hover:text-white transition-colors"
-                    onClick={() => setPage(page + 1)}
-                    disabled={page === 10}
-                >下一页</button>
+                <Pagination
+                    count={10} // 这里建议动态计算总页数
+                    page={page}
+                    onChange={(e, value) => setPage(value)}
+                    color="primary"
+                />
             </div>
         </div>
     );
