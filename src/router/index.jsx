@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { createBrowserRouter, RouterProvider, Routes, Route, Navigate } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import Login from '../pages/Login';
 import Register from '../pages/Login/Register/index.jsx';
 import ForgetPassWord from '../pages/Login/ForgetPassWord/index.jsx';
@@ -18,29 +18,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setAccessToken, removeAccessToken } from '@/store/modules/auth/actions';
 import axios from 'axios';
 
+// 美观的加载动画组件
+const LoadingSpinner = () => (
+  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh' }}>
+    <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid mb-4"></div>
+    <div style={{ color: '#2563eb', fontWeight: 600, fontSize: 18 }}>正在校验身份，请稍候...</div>
+  </div>
+);
 
-const isAuthenticated = async (dispatch, getState) => {
-  const accessToken = getState().auth.accessToken;
-  if (accessToken) return true;
-
-  // 没有token，尝试刷新
-  try {
-    const res = await axios.post('/refresh');
-    if (res.data.code === 200 && res.data.accessToken) {
-      dispatch(setAccessToken(res.data.accessToken));
-      return true;
-    }
-    // 刷新失败
-    dispatch(removeAccessToken());
-    return false;
-  } catch (e) {
-    dispatch(removeAccessToken());
-    return false;
-  }
-};
-
-// 受保护的路由组件，支持异步鉴权
-const ProtectedRoute = ({ children }) => {
+// AuthGuard 组件，负责身份校验和加载动画
+const AuthGuard = ({ children }) => {
   const dispatch = useDispatch();
   const accessToken = useSelector(state => state.auth ? state.auth.accessToken : null);
   const [loading, setLoading] = useState(true);
@@ -54,9 +41,10 @@ const ProtectedRoute = ({ children }) => {
         return;
       }
       try {
-        const res = await axios.post('/refresh');
-        if (res.data.code === 200 && res.data.accessToken) {
-          dispatch(setAccessToken(res.data.accessToken));
+        const res = await axios.post('/api/api/refresh', {}, { withCredentials: true });
+        console.log(res.data);
+        if (res.data && res.data.code === 200 && res.data.data.accessToken) {
+          dispatch(setAccessToken(res.data.data.accessToken));
           setAuthed(true);
         } else {
           dispatch(removeAccessToken());
@@ -71,17 +59,14 @@ const ProtectedRoute = ({ children }) => {
     checkAuth();
   }, [accessToken, dispatch]);
 
-  if (loading) return <div>正在校验身份，请稍候...</div>;
+  if (loading) return <LoadingSpinner />;
   if (!authed) return <Navigate to="/login" replace />;
   return children;
 };
 
 // 创建路由配置
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Login />,
-  },
+  { path: '/', element: <Navigate to="/login" replace /> },
   {
     path: '/login',
     element: <Login />,
@@ -101,9 +86,9 @@ const router = createBrowserRouter([
   {
     path: '/home',
     element: (
-      <ProtectedRoute>
+      <AuthGuard>
         <Home />
-      </ProtectedRoute>
+      </AuthGuard>
     ),
     children: [
       {
