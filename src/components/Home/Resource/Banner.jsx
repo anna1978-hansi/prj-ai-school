@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import { bannerSlides } from './data.jsx';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
@@ -10,6 +11,13 @@ import 'swiper/css/pagination';
 const Banner = () => {
     return (
         <div className="mb-12">
+            <Helmet>
+                <link
+                    rel="preload"
+                    as="image"
+                    href={bannerSlides[0].imageUrl}
+                />
+            </Helmet>
             <Swiper
                 modules={[Autoplay, Pagination]}
                 spaceBetween={30}

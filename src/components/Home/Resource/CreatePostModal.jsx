@@ -1,4 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBookOpen, faArchive, faCloudUploadAlt, faEye, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 const CreatePostModal = () => {
     // Modal visibility would be controlled by state in a real app
@@ -11,11 +13,11 @@ const CreatePostModal = () => {
                         <h1 className="text-2xl font-semibold text-gray-900 mb-6">创建投稿</h1>
                         <div className="grid grid-cols-2 gap-4 mb-8">
                             <button className="flex items-center justify-center py-4 px-6 border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300 !rounded-button whitespace-nowrap bg-white">
-                                <i className="fas fa-book-open mr-2 w-5 h-5 flex items-center justify-center"></i>
+                                <FontAwesomeIcon icon={faBookOpen} className="mr-2 w-5 h-5 flex items-center justify-center" />
                                 教学设计
                             </button>
                             <button className="flex items-center justify-center py-4 px-6 border-2 border-gray-200 text-gray-500 hover:border-primary hover:text-primary transition-all duration-300 !rounded-button whitespace-nowrap bg-white">
-                                <i className="fas fa-archive mr-2 w-5 h-5 flex items-center justify-center"></i>
+                                <FontAwesomeIcon icon={faArchive} className="mr-2 w-5 h-5 flex items-center justify-center" />
                                 资源包
                             </button>
                         </div>
@@ -38,7 +40,7 @@ const CreatePostModal = () => {
                             <div className="relative border border-dashed border-gray-300 rounded-lg p-4 text-center">
                                 <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
                                 <div className="flex flex-col items-center space-y-2">
-                                    <i className="fas fa-cloud-upload-alt text-2xl text-gray-400"></i>
+                                    <FontAwesomeIcon icon={faCloudUploadAlt} className="text-2xl text-gray-400" />
                                     <span className="text-sm text-gray-500">点击或拖拽上传封面图片</span>
                                     <span className="text-xs text-gray-400">建议尺寸：1200x600px，支持 jpg、png 格式</span>
                                 </div>
@@ -49,7 +51,7 @@ const CreatePostModal = () => {
                             <div className="relative">
                                 <input type="file" className="hidden" accept=".md" multiple />
                                 <div className="upload-area p-8 text-center cursor-pointer hover:bg-blue-50 transition-colors duration-300 !rounded-button border border-gray-200">
-                                    <i className="fas fa-cloud-upload-alt text-4xl text-primary mb-4"></i>
+                                    <FontAwesomeIcon icon={faCloudUploadAlt} className="text-4xl text-primary mb-4" />
                                     <p className="text-sm text-gray-600">点击或拖拽文件到此处上传</p>
                                     <p className="text-xs text-gray-500 mt-2">当前模式为教学设计，仅支持上传 .md 格式文件</p>
                                 </div>
@@ -68,11 +70,11 @@ const CreatePostModal = () => {
                         </div>
                         <div className="flex justify-end space-x-4 pt-6 border-t">
                             <button className="flex items-center justify-center py-2 px-6 border border-gray-300 text-gray-700 hover:border-primary hover:text-primary transition-all duration-300 !rounded-button whitespace-nowrap bg-white">
-                                <i className="fas fa-eye mr-2 w-4 h-4 flex items-center justify-center"></i>
+                                <FontAwesomeIcon icon={faEye} className="mr-2 w-4 h-4 flex items-center justify-center" />
                                 预览
                             </button>
                             <button className="flex items-center justify-center py-2 px-6 bg-primary text-white hover:bg-secondary transition-all duration-300 !rounded-button whitespace-nowrap">
-                                <i className="fas fa-paper-plane mr-2 w-4 h-4 flex items-center justify-center"></i>
+                                <FontAwesomeIcon icon={faPaperPlane} className="mr-2 w-4 h-4 flex items-center justify-center" />
                                 提交
                             </button>
                         </div>

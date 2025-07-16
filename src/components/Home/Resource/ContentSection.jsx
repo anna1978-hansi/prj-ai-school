@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ResourceCard from './ResourceCard.jsx';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 const ContentSection = ({ title, items, lazy = true }) => {
     // 新增分页逻辑
     const [page, setPage] = useState(0);
@@ -25,14 +26,14 @@ const ContentSection = ({ title, items, lazy = true }) => {
                         onClick={handlePrev}
                         disabled={page === 0}
                     >
-                        <i className="fas fa-chevron-left"></i>
+                        <FontAwesomeIcon icon={faChevronLeft} />
                     </button>
                     <button
                         className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-primary hover:text-white transition-colors disabled:opacity-40"
                         onClick={handleNext}
                         disabled={page === totalPages - 1}
                     >
-                        <i className="fas fa-chevron-right"></i>
+                        <FontAwesomeIcon icon={faChevronRight} />
                     </button>
                 </div>
             </div>

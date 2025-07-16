@@ -1,6 +1,7 @@
 import React from 'react';
 import { favoritesData } from './data.jsx';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 const SelectFavoritesModal = () => {
     // Modal visibility would be controlled by state
     return (
@@ -9,7 +10,7 @@ const SelectFavoritesModal = () => {
                 <div className="flex justify-between items-center mb-8">
                     <h2 className="text-2xl font-semibold text-center w-full text-gray-800">选择收藏夹</h2>
                     <button className="absolute right-6 top-6 text-gray-400 hover:text-gray-600 transition-colors p-2">
-                        <i className="fas fa-times text-xl"></i>
+                        <FontAwesomeIcon icon={faTimes} className="text-xl" />
                     </button>
                 </div>
 

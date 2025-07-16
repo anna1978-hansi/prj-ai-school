@@ -1,6 +1,7 @@
 import React from 'react';
 import LazyImage from '@/utils/LazyImage.jsx';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar, faEye, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 const ResourceCard = ({ imageUrl, title, author, avatarUrl, views, likes, lazy }) => {
     return (
         <div className="bg-white rounded-lg shadow-sm overflow-hidden group transition-all duration-300 hover:shadow-lg">
@@ -14,7 +15,7 @@ const ResourceCard = ({ imageUrl, title, author, avatarUrl, views, likes, lazy }
                 />
                 <div className="absolute top-2 right-2 flex items-center space-x-2">
                     <button className="w-8 h-8 flex items-center justify-center bg-black/30 text-white rounded-full hover:bg-primary transition-colors">
-                        <i className="far fa-star"></i>
+                        <FontAwesomeIcon icon={faStar} />
                     </button>
                 </div>
             </div>
@@ -32,8 +33,8 @@ const ResourceCard = ({ imageUrl, title, author, avatarUrl, views, likes, lazy }
                         <span>{author}</span>
                     </div>
                     <div className="flex items-center gap-4">
-                        <span className="flex items-center gap-1"><i className="far fa-eye"></i>{views}</span>
-                        <span className="flex items-center gap-1"><i className="far fa-thumbs-up"></i>{likes}</span>
+                        <span className="flex items-center gap-1"><FontAwesomeIcon icon={faEye} />{views}</span>
+                        <span className="flex items-center gap-1"><FontAwesomeIcon icon={faThumbsUp} />{likes}</span>
                     </div>
                 </div>
             </div>

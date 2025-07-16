@@ -1,7 +1,8 @@
 import React from 'react';
 import HotListCard from './HotListCard.jsx';
 import { hotCourses, hotDesigns, hotResources } from './data.jsx';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 const SearchSection = () => {
     return (
         <div className="text-center mt-8 mb-12">
@@ -13,7 +14,7 @@ const SearchSection = () => {
                         className="w-full h-12 pl-12 pr-4 text-gray-700 bg-white rounded-lg shadow-sm border border-gray-200 focus:ring-2 focus:ring-primary focus:outline-none"
                         placeholder="搜索资源或创作者..."
                     />
-                    <i className="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    <FontAwesomeIcon icon={faSearch} className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 </div>
                 {/* Search results container can be conditionally rendered later */}
             </div>
