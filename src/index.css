@@ -186,5 +186,7 @@ body {
 html,
 body,
 #root {
+  flex-grow: 1;
+  /* 或者简写 flex: 1; */
   height: 100%;
 }

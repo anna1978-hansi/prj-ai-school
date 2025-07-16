@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faStar } from '@fortawesome/free-solid-svg-icons'
 const CourseCard = ({ image, title, description, students, rating, status, access }) => {
     return (
-        <div className="bg-white rounded-xl shadow-md overflow-hidden w-full max-w-sm transition hover:shadow-lg">
-            <img src={image} alt={title} className="w-full h-40 object-cover" />
+        <div className="bg-white rounded-xl shadow-md overflow-hidden w-full max-w-sm transition hover:shadow-lg mx-auto">
+            <img src={image} alt={title} className="w-full h-32 sm:h-40 object-cover" />
             <div className="p-4">
                 <div className="text-xl font-bold text-gray-800 mb-2">{title}</div>
                 <p className="text-gray-600 text-sm mb-4">{description}</p>

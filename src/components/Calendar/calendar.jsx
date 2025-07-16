@@ -180,7 +180,7 @@ export default function Calendar() {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-6 w-full max-w-2xl mx-auto">
+    <div className="bg-white rounded-xl shadow-sm p-6 w-full max-w-2xl mx-auto ">
       {/* --- 日历头部 --- */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-4">

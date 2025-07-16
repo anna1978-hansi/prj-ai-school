@@ -18,16 +18,16 @@ const CourseTitle = () => {
 
     return (
         <div className="mb-8" ref={wrapperRef}>
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 sm:gap-0">
                 <h1 className="text-2xl font-bold text-gray-900">我的课程</h1>
 
-                <div className="flex items-center gap-3">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 w-full sm:w-auto">
                     {/* 搜索栏 */}
-                    <div className="flex rounded-lg overflow-hidden border border-gray-300">
+                    <div className="flex rounded-lg overflow-hidden border border-gray-300 w-full sm:w-auto">
                         <input
                             type="text"
                             placeholder="搜索课程"
-                            className="px-4 py-2 w-64 text-sm focus:outline-none"
+                            className="px-4 py-2 w-full sm:w-64 text-sm focus:outline-none"
                         />
                         <button className="bg-blue-600 text-white px-4 flex items-center justify-center hover:bg-blue-700 transition">
                             <FontAwesomeIcon icon={faSearch} className="text-base" />

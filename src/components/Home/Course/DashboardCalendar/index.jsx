@@ -27,12 +27,11 @@ const DashboardCalendar = () => {
 
     return (
         // 使用 Flexbox 创建整体布局
-        <div className="flex  p-4 md:p-8 space-x-8 rounded-lg">
+        <div className="flex flex-col md:flex-row p-2 md:p-8 gap-4 md:space-x-8 rounded-lg max-[1550px]:gap-10 items-center md:items-start w-full">
 
             <BasicDateCalendar />
-
             {/* ----------- 右侧信息栏 ----------- */}
-            <div className="w-full md:w-1/3 space-y-6">
+            <div className="w-full md:w-1/3 space-y-4 md:space-y-6 md:min-[1650px]:mr-10 mt-4 md:mt-0">
                 {/* 本月安排 */}
                 <div className="bg-white p-6 rounded-lg shadow-md">
                     <div className="flex justify-between items-center mb-4">
