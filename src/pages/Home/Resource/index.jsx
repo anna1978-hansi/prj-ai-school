@@ -13,7 +13,7 @@ const Resource = () => {
     return (
         // The modals would be rendered here but hidden by default.
         // Their visibility would be toggled with JavaScript (state).
-        <div className="bg-gradient-to-br from-indigo-50 to-gray-100">
+        <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-gray-100">
             <CreatePostModal />
             <SelectFavoritesModal />
 
